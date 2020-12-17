@@ -222,7 +222,7 @@ function ResetAll()
   		if string.sub(line,-2,-1) == "|R" then
   			if string.sub(line,1,1) == "+" then
 	  			lines[#lines + 1] = string.sub(line,2,string.len(line))
-				LogTask(string.sub(line,2,string.len(line)))
+				LogTask(string.sub(line,2,string.len(line) - 2))
 	  		else
 	  			lines[#lines + 1] = line
 	  		end
