@@ -2,6 +2,7 @@ function Initialize()
 
 	sDynamicMeterFile = SELF:GetOption('DynamicMeterFile')
 	sTaskListFile = SELF:GetOption('TaskListFile')
+	sLogFile = SELF:GetOption('LogFile')
 
 end
 
@@ -221,12 +222,15 @@ function ResetAll()
   		if string.sub(line,-2,-1) == "|R" then
   			if string.sub(line,1,1) == "+" then
 	  			lines[#lines + 1] = string.sub(line,2,string.len(line))
+				LogTask(string.sub(line,2,string.len(line)))
 	  		else
 	  			lines[#lines + 1] = line
 	  		end
 	  	-- do not delete uncompleted tasks
 	  	elseif string.sub(line,1,1) ~= "+" and string.sub(line,-2,-1) ~= "|R" then
 	  		lines[#lines + 1] = line
+		else
+			LogTask(string.sub(line,2,string.len(line)))
 	  	end
 
   	end
@@ -263,4 +267,17 @@ function AddTask(newline)
 
 	return true
 
+end
+
+function LogTask(task)
+	local logFile = io.open(sLogFile, "r")
+	local readFile = logFile:read("*a")
+	logFile:close()
+
+	logFile = io.open(sLogFile, "w")
+	logFile:write(readFile)
+	logFile:write(os.date())
+	logFile:write(': ')
+	logFile:write(task, "\n")
+	logFile:close()
 end
