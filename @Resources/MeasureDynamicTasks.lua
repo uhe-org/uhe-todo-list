@@ -2,7 +2,7 @@ function Initialize()
 
 	sDynamicMeterFile = SELF:GetOption('DynamicMeterFile')
 	sTaskListFile = SELF:GetOption('TaskListFile')
-	
+
 end
 
 
@@ -17,7 +17,7 @@ function Update()
 	for line in io.lines(sTaskListFile) do
 
 		-- check if the task is complete
-		if string.sub(line,1,1) == "+" then 
+		if string.sub(line,1,1) == "+" then
 			checked = checked.."|"..#tasks
 			line = string.sub(line,2,string.len(line))
 		end
@@ -35,7 +35,7 @@ function Update()
 	checked=checked.."|"
 
 	-- dynamic measures checking task status
-	for i=1,#tasks,1 do 
+	for i=1,#tasks,1 do
 		dynamicOutput[#dynamicOutput + 1] = "[MeasureTaskIcon"..i.."]"
 		dynamicOutput[#dynamicOutput + 1] = "Measure=String"
 		dynamicOutput[#dynamicOutput + 1] = "String=#check"..i.."state#"
@@ -156,7 +156,7 @@ function Update()
 	File:close()
 
 	return true
-	
+
 end
 
 
@@ -178,7 +178,7 @@ function CheckLine(lineNumber)
 			else
 				lines[#lines + 1] = string.sub(line,2,string.len(line))
 			end
-			
+
 			-- read the rest of the file
 			restOfFile = hFile:read("*a")
 			-- and break from loop
@@ -226,7 +226,7 @@ function ResetAll()
 	  		end
 	  	-- do not delete uncompleted tasks
 	  	elseif string.sub(line,1,1) ~= "+" and string.sub(line,-2,-1) ~= "|R" then
-	  		lines[#lines + 1] = line 
+	  		lines[#lines + 1] = line
 	  	end
 
   	end
