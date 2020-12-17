@@ -18,7 +18,7 @@ function Update()
 
 		-- check if the task is complete
 		if string.sub(line,1,1) == "+" then
-			checked = checked.."|"..#tasks
+			checked = checked.."|"..#tasks + 1
 			line = string.sub(line,2,string.len(line))
 		end
 
