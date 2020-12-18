@@ -309,6 +309,14 @@ end
 
 function LogTask(task)
 	local logFile = io.open(sLogFile, "r")
+
+	-- create a new log file if it doesn't exist
+	if(logFile == nil) then
+		logFile = io.open(sTaskListFile, "w")
+		logFile:close()
+		logFile = io.open(sTaskListFile, "r")
+	end
+
 	local readFile = logFile:read("*a")
 	logFile:close()
 
