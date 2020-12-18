@@ -58,8 +58,7 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "Text=[#[#check"..i.."]]"
 		dynamicOutput[#dynamicOutput + 1] = "FontFace=Font Awesome 5 Free Regular"
 		dynamicOutput[#dynamicOutput + 1] = "FontSize=18"
-		dynamicOutput[#dynamicOutput + 1] = "FontColor=255,255,255,255"
-		dynamicOutput[#dynamicOutput + 1] = "SolidColor=0,0,0,1"
+		dynamicOutput[#dynamicOutput + 1] = "Group=BackgroundGroup | TextGroup"
 		dynamicOutput[#dynamicOutput + 1] = "AntiAlias=1"
 		dynamicOutput[#dynamicOutput + 1] = "ClipString=1"
 		dynamicOutput[#dynamicOutput + 1] = "X=0"
@@ -73,18 +72,18 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "W=30"
 		dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!SetVariable check"..i.."state (1-#check"..i.."state#)][!CommandMeasure \"MeasureDynamicTasks\" \"CheckLine("..i..")\"]"
 		dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
+		dynamicOutput[#dynamicOutput + 1] = "GradientAngle=180"
 		dynamicOutput[#dynamicOutput + 1] = "[MeterRepeatingTask"..i.."]"
 		dynamicOutput[#dynamicOutput + 1] = "Meter=String"
 		dynamicOutput[#dynamicOutput + 1] = "Text="..tasks[i]
-		dynamicOutput[#dynamicOutput + 1] = "FontFace=Roboto"
-		dynamicOutput[#dynamicOutput + 1] = "FontSize=16"
+		dynamicOutput[#dynamicOutput + 1] = "FontFace=#FontFace#"
+		dynamicOutput[#dynamicOutput + 1] = "FontSize=14"
 		if string.find(recurring, "|"..i.."|") ~= nil then
 			dynamicOutput[#dynamicOutput + 1] = "FontColor=255,255,0"
+			dynamicOutput[#dynamicOutput + 1] = "Group=BackgroundGroup"
 		else
-			dynamicOutput[#dynamicOutput + 1] = "FontColor=255,255,255"
+			dynamicOutput[#dynamicOutput + 1] = "Group=BackgroundGroup | TextGroup"
 		end
-		dynamicOutput[#dynamicOutput + 1] = "SolidColor=0,0,0,1"
-		dynamicOutput[#dynamicOutput + 1] = "StringStyle=Bold"
 		dynamicOutput[#dynamicOutput + 1] = "AntiAlias=1"
 		dynamicOutput[#dynamicOutput + 1] = "ClipString=2"
 		dynamicOutput[#dynamicOutput + 1] = "X=R"
@@ -100,11 +99,9 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "Measure=Plugin"
 		dynamicOutput[#dynamicOutput + 1] = "Plugin=InputText"
 		dynamicOutput[#dynamicOutput + 1] = "DefaultValue="..tasks[i]
-		dynamicOutput[#dynamicOutput + 1] = "FontFace=Roboto"
+		dynamicOutput[#dynamicOutput + 1] = "FontFace=#FontFace#"
 		dynamicOutput[#dynamicOutput + 1] = "FontSize=14"
-		dynamicOutput[#dynamicOutput + 1] = "SolidColor=76A0E8FF"
-		dynamicOutput[#dynamicOutput + 1] = "FontColor=255,255,255,255"
-		dynamicOutput[#dynamicOutput + 1] = "StringStyle=Bold"
+		dynamicOutput[#dynamicOutput + 1] = "Group=TextBoxGroup | TextGroup"
 		dynamicOutput[#dynamicOutput + 1] = "AntiAlias=1"
 		dynamicOutput[#dynamicOutput + 1] = "X=30"
 		for j=1,i-1,1 do
