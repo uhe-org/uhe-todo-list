@@ -189,7 +189,7 @@ function Update()
 	dynamicOutput[#dynamicOutput + 1] = "[MeterViewTasks]"
 	dynamicOutput[#dynamicOutput + 1] = "Meter=String"
 	dynamicOutput[#dynamicOutput + 1] = "Text=#fa-book#"
-	dynamicOutput[#dynamicOutput + 1] = "FontFace=FontAwesome"
+	dynamicOutput[#dynamicOutput + 1] = "FontFace=Font Awesome 5 Free Solid"
 	dynamicOutput[#dynamicOutput + 1] = "FontSize=16"
 	dynamicOutput[#dynamicOutput + 1] = "FontColor=255,255,255,255"
 	dynamicOutput[#dynamicOutput + 1] = "SolidColor=0,0,0,1"
