@@ -80,6 +80,7 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "H=24"
 		dynamicOutput[#dynamicOutput + 1] = "W=300"
 		dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure MeasureRenameTextBox"..i.." \"ExecuteBatch 1\"]"
+		dynamicOutput[#dynamicOutput + 1] = "ToolTipText="..tasks[i]
 	end
 
 	for i=1,#tasks,1 do
