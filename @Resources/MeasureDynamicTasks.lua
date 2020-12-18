@@ -130,6 +130,7 @@ function Update()
 	dynamicOutput[#dynamicOutput + 1] = "Y=15R"
 	dynamicOutput[#dynamicOutput + 1] = "W=30"
 	dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!Refresh][!Refresh]"
+	dynamicOutput[#dynamicOutput + 1] = "ToolTipText=Refresh"
 
 	-- reset button
 	dynamicOutput[#dynamicOutput + 1] = "[MeterUndoTasks]"
@@ -145,6 +146,7 @@ function Update()
 	dynamicOutput[#dynamicOutput + 1] = "Y=r"
 	dynamicOutput[#dynamicOutput + 1] = "W=30"
 	dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure \"MeasureDynamicTasks\" \"ResetAll()\"][!Refresh][!Refresh]"
+	dynamicOutput[#dynamicOutput + 1] = "ToolTipText=Clear"
 
 	-- add button
 	dynamicOutput[#dynamicOutput + 1] = "[MeterAddTasks]"
@@ -160,6 +162,7 @@ function Update()
 	dynamicOutput[#dynamicOutput + 1] = "Y=r"
 	dynamicOutput[#dynamicOutput + 1] = "W=30"
 	dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure MeasureInput \"ExecuteBatch 1-2\"]"
+	dynamicOutput[#dynamicOutput + 1] = "ToolTipText=Add"
 
 	-- view button
 	dynamicOutput[#dynamicOutput + 1] = "[MeterViewTasks]"
@@ -175,6 +178,7 @@ function Update()
 	dynamicOutput[#dynamicOutput + 1] = "Y=r"
 	dynamicOutput[#dynamicOutput + 1] = "W=30"
 	dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=#@#Logs.txt"
+	dynamicOutput[#dynamicOutput + 1] = "ToolTipText=View"
 
 	-- create dynamic meter file
 	local File = io.open(sDynamicMeterFile, 'w')
