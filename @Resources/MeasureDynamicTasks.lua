@@ -161,6 +161,21 @@ function Update()
 	dynamicOutput[#dynamicOutput + 1] = "W=30"
 	dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure MeasureInput \"ExecuteBatch 1-2\"]"
 
+	-- view button
+	dynamicOutput[#dynamicOutput + 1] = "[MeterViewTasks]"
+	dynamicOutput[#dynamicOutput + 1] = "Meter=String"
+	dynamicOutput[#dynamicOutput + 1] = "Text=#fa-book#"
+	dynamicOutput[#dynamicOutput + 1] = "FontFace=FontAwesome"
+	dynamicOutput[#dynamicOutput + 1] = "FontSize=16"
+	dynamicOutput[#dynamicOutput + 1] = "FontColor=255,255,255,255"
+	dynamicOutput[#dynamicOutput + 1] = "SolidColor=0,0,0,1"
+	dynamicOutput[#dynamicOutput + 1] = "AntiAlias=1"
+	dynamicOutput[#dynamicOutput + 1] = "ClipString=1"
+	dynamicOutput[#dynamicOutput + 1] = "X=R"
+	dynamicOutput[#dynamicOutput + 1] = "Y=r"
+	dynamicOutput[#dynamicOutput + 1] = "W=30"
+	dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=#@#Logs.txt"
+
 	-- create dynamic meter file
 	local File = io.open(sDynamicMeterFile, 'w')
 
