@@ -73,6 +73,11 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!SetVariable check"..i.."state (1-#check"..i.."state#)][!CommandMeasure \"MeasureDynamicTasks\" \"CheckLine("..i..")\"]"
 		dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
 		dynamicOutput[#dynamicOutput + 1] = "GradientAngle=180"
+		if(i == #tasks) then
+			dynamicOutput[#dynamicOutput + 1] = "Padding=#SidePadding#,#SidePadding#,0,#SidePadding#"
+		else
+			dynamicOutput[#dynamicOutput + 1] = "Padding=#SidePadding#,#SidePadding#,0,0"
+		end
 		dynamicOutput[#dynamicOutput + 1] = "[MeterRepeatingTask"..i.."]"
 		dynamicOutput[#dynamicOutput + 1] = "Meter=String"
 		dynamicOutput[#dynamicOutput + 1] = "Text="..tasks[i]
@@ -90,6 +95,11 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "Y=r"
 		dynamicOutput[#dynamicOutput + 1] = "W=300"
 		dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure MeasureRenameTextBox"..i.." \"ExecuteBatch 1\"]"
+		if(i == #tasks) then
+			dynamicOutput[#dynamicOutput + 1] = "Padding=0,#SidePadding#,#SidePadding#,#SidePadding#"
+		else
+			dynamicOutput[#dynamicOutput + 1] = "Padding=0,#SidePadding#,#SidePadding#,0"
+		end
 	end
 
 	for i=1,#tasks,1 do
@@ -103,12 +113,12 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "FontSize=14"
 		dynamicOutput[#dynamicOutput + 1] = "Group=TextBoxGroup | TextGroup"
 		dynamicOutput[#dynamicOutput + 1] = "AntiAlias=1"
-		dynamicOutput[#dynamicOutput + 1] = "X=30"
+		dynamicOutput[#dynamicOutput + 1] = "X=35"
 		for j=1,i-1,1 do
 			YValue = YValue.."+ [MeterRepeatingTask"..j..":H]"
 		end
 		dynamicOutput[#dynamicOutput + 1] = "Y=("..YValue..")"
-		dynamicOutput[#dynamicOutput + 1] = "W=300"
+		dynamicOutput[#dynamicOutput + 1] = "W=305"
 		-- minus additional padding for the height, if any
 		if(i == #tasks) then
 			dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] - (0 * 2))"
@@ -149,6 +159,7 @@ function Update()
 	dynamicOutput[#dynamicOutput + 1] = "W=30"
 	dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!Refresh][!Refresh]"
 	dynamicOutput[#dynamicOutput + 1] = "ToolTipText=Refresh"
+	dynamicOutput[#dynamicOutput + 1] = "Padding=#SidePadding#,0,0,#SidePadding#"
 
 	-- reset button
 	dynamicOutput[#dynamicOutput + 1] = "[MeterUndoTasks]"
