@@ -215,6 +215,12 @@ function CheckLine(lineNumber)
 			-- toggle completion status of line
 			if string.sub(line,1,1) ~= "+" then
 				lines[#lines + 1] = "+"..line
+
+				if (string.sub(line,-2,-1) == "|R") then
+					LogTask(string.sub(line,1,string.len(line) - 2))
+				else
+					LogTask(string.sub(line,1,string.len(line)))
+				end
 			else
 				lines[#lines + 1] = string.sub(line,2,string.len(line))
 			end
@@ -261,15 +267,12 @@ function ResetAll()
   		if string.sub(line,-2,-1) == "|R" then
   			if string.sub(line,1,1) == "+" then
 	  			lines[#lines + 1] = string.sub(line,2,string.len(line))
-				LogTask(string.sub(line,2,string.len(line) - 2))
 	  		else
 	  			lines[#lines + 1] = line
 	  		end
 	  	-- do not delete uncompleted tasks
 	  	elseif string.sub(line,1,1) ~= "+" and string.sub(line,-2,-1) ~= "|R" then
 	  		lines[#lines + 1] = line
-		else
-			LogTask(string.sub(line,2,string.len(line)))
 	  	end
 
   	end
