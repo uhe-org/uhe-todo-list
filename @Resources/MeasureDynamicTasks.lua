@@ -25,7 +25,7 @@ function Update()
 
 		-- check if the task is recurring
 		if string.sub(line,-2,-1) == "|R" then
-			recurring = recurring.."|"..#tasks
+			recurring = recurring.."|"..#tasks + 1
 			line = string.sub(line,1,-3)
 		end
 
@@ -34,6 +34,9 @@ function Update()
 
 	-- add delimeter to end of checked string
 	checked=checked.."|"
+
+	-- add delimeter to end of recurring string
+	recurring=recurring.."|"
 
 	-- dynamic measures checking task status
 	for i=1,#tasks,1 do
@@ -70,7 +73,11 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "Text="..tasks[i]
 		dynamicOutput[#dynamicOutput + 1] = "FontFace=Roboto"
 		dynamicOutput[#dynamicOutput + 1] = "FontSize=16"
-		dynamicOutput[#dynamicOutput + 1] = "FontColor=255,255,255,255"
+		if string.find(recurring, "|"..i.."|") ~= nil then
+			dynamicOutput[#dynamicOutput + 1] = "FontColor=255,255,0"
+		else
+			dynamicOutput[#dynamicOutput + 1] = "FontColor=255,255,255"
+		end
 		dynamicOutput[#dynamicOutput + 1] = "SolidColor=0,0,0,1"
 		dynamicOutput[#dynamicOutput + 1] = "StringStyle=Bold"
 		dynamicOutput[#dynamicOutput + 1] = "AntiAlias=1"
