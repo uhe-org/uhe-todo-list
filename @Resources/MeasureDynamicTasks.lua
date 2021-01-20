@@ -84,7 +84,7 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "FontFace=#FontFace#"
 		dynamicOutput[#dynamicOutput + 1] = "FontSize=14"
 		if string.find(recurring, "|"..i.."|") ~= nil then
-			dynamicOutput[#dynamicOutput + 1] = "FontColor=255,255,0"
+			dynamicOutput[#dynamicOutput + 1] = "FontColor=#DarkHighlight#"
 			dynamicOutput[#dynamicOutput + 1] = "Group=BackgroundGroup"
 		else
 			dynamicOutput[#dynamicOutput + 1] = "Group=BackgroundGroup | TextGroup"
