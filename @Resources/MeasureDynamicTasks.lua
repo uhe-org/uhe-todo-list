@@ -64,7 +64,12 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "ClipString=1"
 		dynamicOutput[#dynamicOutput + 1] = "X=0"
 		dynamicOutput[#dynamicOutput + 1] = "Y=R"
-		dynamicOutput[#dynamicOutput + 1] = "H=24"
+		-- minus additional padding for the height, if any
+		if(i == #tasks) then
+			dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] - (0 * 2))"
+		else
+			dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] - 0)"
+		end
 		dynamicOutput[#dynamicOutput + 1] = "W=30"
 		dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!SetVariable check"..i.."state (1-#check"..i.."state#)][!CommandMeasure \"MeasureDynamicTasks\" \"CheckLine("..i..")\"]"
 		dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
@@ -81,16 +86,16 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "SolidColor=0,0,0,1"
 		dynamicOutput[#dynamicOutput + 1] = "StringStyle=Bold"
 		dynamicOutput[#dynamicOutput + 1] = "AntiAlias=1"
-		dynamicOutput[#dynamicOutput + 1] = "ClipString=1"
+		dynamicOutput[#dynamicOutput + 1] = "ClipString=2"
 		dynamicOutput[#dynamicOutput + 1] = "X=R"
 		dynamicOutput[#dynamicOutput + 1] = "Y=r"
-		dynamicOutput[#dynamicOutput + 1] = "H=24"
 		dynamicOutput[#dynamicOutput + 1] = "W=300"
 		dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure MeasureRenameTextBox"..i.." \"ExecuteBatch 1\"]"
-		dynamicOutput[#dynamicOutput + 1] = "ToolTipText="..tasks[i]
 	end
 
 	for i=1,#tasks,1 do
+		-- add initial y position if there's padding
+		YValue = "0 "
 		dynamicOutput[#dynamicOutput + 1] = "[MeasureRenameTextBox"..i.."]"
 		dynamicOutput[#dynamicOutput + 1] = "Measure=Plugin"
 		dynamicOutput[#dynamicOutput + 1] = "Plugin=InputText"
@@ -102,9 +107,17 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "StringStyle=Bold"
 		dynamicOutput[#dynamicOutput + 1] = "AntiAlias=1"
 		dynamicOutput[#dynamicOutput + 1] = "X=30"
-		dynamicOutput[#dynamicOutput + 1] = "Y=(24 * ("..i.." - 1))"
+		for j=1,i-1,1 do
+			YValue = YValue.."+ [MeterRepeatingTask"..j..":H]"
+		end
+		dynamicOutput[#dynamicOutput + 1] = "Y=("..YValue..")"
 		dynamicOutput[#dynamicOutput + 1] = "W=300"
-		dynamicOutput[#dynamicOutput + 1] = "H=24"
+		-- minus additional padding for the height, if any
+		if(i == #tasks) then
+			dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] - (0 * 2))"
+		else
+			dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] - 0)"
+		end
 		dynamicOutput[#dynamicOutput + 1] = "Command1=[!CommandMeasure \"MeasureDynamicTasks\" \"RenameTask("..i..", '$UserInput$')\"][!Refresh][!Refresh]"
 	end
 
