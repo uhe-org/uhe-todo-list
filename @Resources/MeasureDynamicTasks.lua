@@ -65,9 +65,9 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "Y=R"
 		-- minus additional padding for the height, if any
 		if(i == #tasks) then
-			dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] - (0 * 2))"
+			dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] - (#SidePadding# * 2))"
 		else
-			dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] - 0)"
+			dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] - #SidePadding#)"
 		end
 		dynamicOutput[#dynamicOutput + 1] = "W=30"
 		dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!SetVariable check"..i.."state (1-#check"..i.."state#)][!CommandMeasure \"MeasureDynamicTasks\" \"CheckLine("..i..")\"]"
@@ -104,7 +104,7 @@ function Update()
 
 	for i=1,#tasks,1 do
 		-- add initial y position if there's padding
-		YValue = "0 "
+		YValue = "#SidePadding# "
 		dynamicOutput[#dynamicOutput + 1] = "[MeasureRenameTextBox"..i.."]"
 		dynamicOutput[#dynamicOutput + 1] = "Measure=Plugin"
 		dynamicOutput[#dynamicOutput + 1] = "Plugin=InputText"
@@ -121,9 +121,9 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "W=305"
 		-- minus additional padding for the height, if any
 		if(i == #tasks) then
-			dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] - (0 * 2))"
+			dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] - (#SidePadding# * 2))"
 		else
-			dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] - 0)"
+			dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] - #SidePadding#)"
 		end
 		dynamicOutput[#dynamicOutput + 1] = "Command1=[!CommandMeasure \"MeasureDynamicTasks\" \"RenameTask("..i..", '$UserInput$')\"][!Refresh][!Refresh]"
 	end
