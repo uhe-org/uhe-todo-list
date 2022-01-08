@@ -50,44 +50,59 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
 	end
 
+	-- title for tasks
+	dynamicOutput[#dynamicOutput + 1] = "[MeterTitle]"
+	dynamicOutput[#dynamicOutput + 1] = "Meter=String"
+	dynamicOutput[#dynamicOutput + 1] = "Group=TextGroup | BackgroundGroup"
+	dynamicOutput[#dynamicOutput + 1] = "Text=#Title#"
+	dynamicOutput[#dynamicOutput + 1] = "AntiAlias=1"
+	dynamicOutput[#dynamicOutput + 1] = "FontFace=#DisplayFont#"
+	dynamicOutput[#dynamicOutput + 1] = "FontSize=20"
+	dynamicOutput[#dynamicOutput + 1] = "W=([MeterTaskIcon1:W] + [MeterRepeatingTask1:W] - (#SidePadding# * 2))"
+	dynamicOutput[#dynamicOutput + 1] = "Padding=#PaddingSize#"
+	dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure MeasureRenameTitleBox \"ExecuteBatch 1\"]"
+	dynamicOutput[#dynamicOutput + 1] = "ClipString=2"
+
+	dynamicOutput[#dynamicOutput + 1] = "[MeasureRenameTitleBox]"
+	dynamicOutput[#dynamicOutput + 1] = "Measure=Plugin"
+	dynamicOutput[#dynamicOutput + 1] = "Plugin=InputText"
+	dynamicOutput[#dynamicOutput + 1] = "H=([MeterTitle:H] - (#SidePadding# * 2))"
+	dynamicOutput[#dynamicOutput + 1] = "W=([MeterTitle:W] - (#SidePadding# * 2))"
+	dynamicOutput[#dynamicOutput + 1] = "X=#SidePadding#"
+	dynamicOutput[#dynamicOutput + 1] = "Y=#SidePadding#"
+	dynamicOutput[#dynamicOutput + 1] = "FontSize=20"
+	dynamicOutput[#dynamicOutput + 1] = "FontFace=#DisplayFont#"
+	dynamicOutput[#dynamicOutput + 1] = "DefaultValue=#Title#"
+	dynamicOutput[#dynamicOutput + 1] = "Group=TextBoxGroup | TextGroup"
+	dynamicOutput[#dynamicOutput + 1] = "Command1=[!WriteKeyValue Variables Title \"$UserInput$\"][!Refresh][!Refresh]"
+
 	-- dynamic meters
 	for i=1,#tasks,1 do
 		dynamicOutput[#dynamicOutput + 1] = "[MeterTaskIcon"..i.."]"
 		dynamicOutput[#dynamicOutput + 1] = "Meter=String"
 		dynamicOutput[#dynamicOutput + 1] = "MeasureName=MeasureTaskIcon"..i
 		dynamicOutput[#dynamicOutput + 1] = "Text=[#[#check"..i.."]]"
-		dynamicOutput[#dynamicOutput + 1] = "FontFace=Font Awesome 5 Free Regular"
+		dynamicOutput[#dynamicOutput + 1] = "FontFace=#RegularIconFace#"
 		dynamicOutput[#dynamicOutput + 1] = "FontSize=18"
 		dynamicOutput[#dynamicOutput + 1] = "Group=BackgroundGroup | TextGroup"
 		dynamicOutput[#dynamicOutput + 1] = "AntiAlias=1"
-		dynamicOutput[#dynamicOutput + 1] = "ClipString=1"
 		dynamicOutput[#dynamicOutput + 1] = "X=0"
 		dynamicOutput[#dynamicOutput + 1] = "Y=R"
-		-- minus additional padding for the height, if any
-		if(i == #tasks) then
-			dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] - (#SidePadding# * 2))"
-		else
-			dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] - #SidePadding#)"
-		end
-		dynamicOutput[#dynamicOutput + 1] = "W=30"
+		dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] - (#SidePadding# * 2))"
 		dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!SetVariable check"..i.."state (1-#check"..i.."state#)][!CommandMeasure \"MeasureDynamicTasks\" \"CheckLine("..i..")\"]"
 		dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
 		dynamicOutput[#dynamicOutput + 1] = "GradientAngle=180"
-		if(i == #tasks) then
-			dynamicOutput[#dynamicOutput + 1] = "Padding=#SidePadding#,#SidePadding#,0,#SidePadding#"
-		else
-			dynamicOutput[#dynamicOutput + 1] = "Padding=#SidePadding#,#SidePadding#,0,0"
-		end
+		dynamicOutput[#dynamicOutput + 1] = "Padding=#PaddingSize#"
 		dynamicOutput[#dynamicOutput + 1] = "[MeterRepeatingTask"..i.."]"
 		dynamicOutput[#dynamicOutput + 1] = "Meter=String"
 		dynamicOutput[#dynamicOutput + 1] = "Text="..tasks[i]
 		dynamicOutput[#dynamicOutput + 1] = "FontFace=#FontFace#"
 		dynamicOutput[#dynamicOutput + 1] = "FontSize=14"
 		if string.find(recurring, "|"..i.."|") ~= nil then
-			dynamicOutput[#dynamicOutput + 1] = "FontColor=#DarkHighlight#"
-			dynamicOutput[#dynamicOutput + 1] = "Group=BackgroundGroup"
+			dynamicOutput[#dynamicOutput + 1] = "FontColor=#LightHighlight#"
+			dynamicOutput[#dynamicOutput + 1] = "Group=OpaqueBackgroundGroup"
 		else
-			dynamicOutput[#dynamicOutput + 1] = "Group=BackgroundGroup | TextGroup"
+			dynamicOutput[#dynamicOutput + 1] = "Group=OpaqueBackgroundGroup | TextGroup"
 		end
 		dynamicOutput[#dynamicOutput + 1] = "AntiAlias=1"
 		dynamicOutput[#dynamicOutput + 1] = "ClipString=2"
@@ -95,16 +110,10 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "Y=r"
 		dynamicOutput[#dynamicOutput + 1] = "W=300"
 		dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure MeasureRenameTextBox"..i.." \"ExecuteBatch 1\"]"
-		if(i == #tasks) then
-			dynamicOutput[#dynamicOutput + 1] = "Padding=0,#SidePadding#,#SidePadding#,#SidePadding#"
-		else
-			dynamicOutput[#dynamicOutput + 1] = "Padding=0,#SidePadding#,#SidePadding#,0"
-		end
+		dynamicOutput[#dynamicOutput + 1] = "Padding=#PaddingSize#"
 	end
 
 	for i=1,#tasks,1 do
-		-- add initial y position if there's padding
-		YValue = "#SidePadding# "
 		dynamicOutput[#dynamicOutput + 1] = "[MeasureRenameTextBox"..i.."]"
 		dynamicOutput[#dynamicOutput + 1] = "Measure=Plugin"
 		dynamicOutput[#dynamicOutput + 1] = "Plugin=InputText"
@@ -113,18 +122,11 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "FontSize=14"
 		dynamicOutput[#dynamicOutput + 1] = "Group=TextBoxGroup | TextGroup"
 		dynamicOutput[#dynamicOutput + 1] = "AntiAlias=1"
-		dynamicOutput[#dynamicOutput + 1] = "X=35"
-		for j=1,i-1,1 do
-			YValue = YValue.."+ [MeterRepeatingTask"..j..":H]"
-		end
-		dynamicOutput[#dynamicOutput + 1] = "Y=("..YValue..")"
+		dynamicOutput[#dynamicOutput + 1] = "X=(30 + (#SidePadding# * 2))"
+		dynamicOutput[#dynamicOutput + 1] = "Y=([MeterRepeatingTask"..i..":Y] + #SidePadding#)"
 		dynamicOutput[#dynamicOutput + 1] = "W=305"
 		-- minus additional padding for the height, if any
-		if(i == #tasks) then
-			dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] - (#SidePadding# * 2))"
-		else
-			dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] - #SidePadding#)"
-		end
+		dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] - (#SidePadding# * 2))"
 		dynamicOutput[#dynamicOutput + 1] = "Command1=[!CommandMeasure \"MeasureDynamicTasks\" \"RenameTask("..i..", '$UserInput$')\"][!Refresh][!Refresh]"
 	end
 
@@ -144,68 +146,47 @@ function Update()
 	-- include Font Awesome icons
 	dynamicOutput[#dynamicOutput + 1] = "@Include=#@#FontAwesome.inc"
 
+	-- style for button
+	dynamicOutput[#dynamicOutput + 1] = "[styleButton]"
+	dynamicOutput[#dynamicOutput + 1] = "FontFace=#IconFace#"
+	dynamicOutput[#dynamicOutput + 1] = "FontSize=16"
+	dynamicOutput[#dynamicOutput + 1] = "Group = TextGroup | BackgroundGroup"
+	dynamicOutput[#dynamicOutput + 1] = "AntiAlias=1"
+	dynamicOutput[#dynamicOutput + 1] = "X=R"
+	dynamicOutput[#dynamicOutput + 1] = "Y=r"
+	dynamicOutput[#dynamicOutput + 1] = "Padding=#PaddingSize#"
+
 	-- refresh button
 	dynamicOutput[#dynamicOutput + 1] = "[MeterRefreshTasks]"
 	dynamicOutput[#dynamicOutput + 1] = "Meter=String"
+	dynamicOutput[#dynamicOutput + 1] = "MeterStyle=styleButton"
 	dynamicOutput[#dynamicOutput + 1] = "Text=#fa-refresh#"
-	dynamicOutput[#dynamicOutput + 1] = "FontFace=Font Awesome 5 Free Solid"
-	dynamicOutput[#dynamicOutput + 1] = "FontSize=16"
-	dynamicOutput[#dynamicOutput + 1] = "FontColor=255,255,255,255"
-	dynamicOutput[#dynamicOutput + 1] = "SolidColor=0,0,0,1"
-	dynamicOutput[#dynamicOutput + 1] = "AntiAlias=1"
-	dynamicOutput[#dynamicOutput + 1] = "ClipString=1"
 	dynamicOutput[#dynamicOutput + 1] = "X=0"
-	dynamicOutput[#dynamicOutput + 1] = "Y=15R"
-	dynamicOutput[#dynamicOutput + 1] = "W=30"
+	dynamicOutput[#dynamicOutput + 1] = "Y=R"
 	dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!Refresh][!Refresh]"
 	dynamicOutput[#dynamicOutput + 1] = "ToolTipText=Refresh"
-	dynamicOutput[#dynamicOutput + 1] = "Padding=#SidePadding#,0,0,#SidePadding#"
 
 	-- reset button
 	dynamicOutput[#dynamicOutput + 1] = "[MeterUndoTasks]"
 	dynamicOutput[#dynamicOutput + 1] = "Meter=String"
+	dynamicOutput[#dynamicOutput + 1] = "MeterStyle=styleButton"
 	dynamicOutput[#dynamicOutput + 1] = "Text=#fa-undo#"
-	dynamicOutput[#dynamicOutput + 1] = "FontFace=Font Awesome 5 Free Solid"
-	dynamicOutput[#dynamicOutput + 1] = "FontSize=16"
-	dynamicOutput[#dynamicOutput + 1] = "FontColor=255,255,255,255"
-	dynamicOutput[#dynamicOutput + 1] = "SolidColor=0,0,0,1"
-	dynamicOutput[#dynamicOutput + 1] = "AntiAlias=1"
-	dynamicOutput[#dynamicOutput + 1] = "ClipString=1"
-	dynamicOutput[#dynamicOutput + 1] = "X=R"
-	dynamicOutput[#dynamicOutput + 1] = "Y=r"
-	dynamicOutput[#dynamicOutput + 1] = "W=30"
 	dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure \"MeasureDynamicTasks\" \"ResetAll()\"][!Refresh][!Refresh]"
 	dynamicOutput[#dynamicOutput + 1] = "ToolTipText=Clear"
 
 	-- add button
 	dynamicOutput[#dynamicOutput + 1] = "[MeterAddTasks]"
 	dynamicOutput[#dynamicOutput + 1] = "Meter=String"
+	dynamicOutput[#dynamicOutput + 1] = "MeterStyle=styleButton"
 	dynamicOutput[#dynamicOutput + 1] = "Text=#fa-plus-sq#"
-	dynamicOutput[#dynamicOutput + 1] = "FontFace=Font Awesome 5 Free Solid"
-	dynamicOutput[#dynamicOutput + 1] = "FontSize=16"
-	dynamicOutput[#dynamicOutput + 1] = "FontColor=255,255,255,255"
-	dynamicOutput[#dynamicOutput + 1] = "SolidColor=0,0,0,1"
-	dynamicOutput[#dynamicOutput + 1] = "AntiAlias=1"
-	dynamicOutput[#dynamicOutput + 1] = "ClipString=1"
-	dynamicOutput[#dynamicOutput + 1] = "X=R"
-	dynamicOutput[#dynamicOutput + 1] = "Y=r"
-	dynamicOutput[#dynamicOutput + 1] = "W=30"
 	dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure MeasureInput \"ExecuteBatch 1-2\"]"
 	dynamicOutput[#dynamicOutput + 1] = "ToolTipText=Add"
 
 	-- view button
 	dynamicOutput[#dynamicOutput + 1] = "[MeterViewTasks]"
 	dynamicOutput[#dynamicOutput + 1] = "Meter=String"
+	dynamicOutput[#dynamicOutput + 1] = "MeterStyle=styleButton"
 	dynamicOutput[#dynamicOutput + 1] = "Text=#fa-book#"
-	dynamicOutput[#dynamicOutput + 1] = "FontFace=Font Awesome 5 Free Solid"
-	dynamicOutput[#dynamicOutput + 1] = "FontSize=16"
-	dynamicOutput[#dynamicOutput + 1] = "FontColor=255,255,255,255"
-	dynamicOutput[#dynamicOutput + 1] = "SolidColor=0,0,0,1"
-	dynamicOutput[#dynamicOutput + 1] = "AntiAlias=1"
-	dynamicOutput[#dynamicOutput + 1] = "ClipString=1"
-	dynamicOutput[#dynamicOutput + 1] = "X=R"
-	dynamicOutput[#dynamicOutput + 1] = "Y=r"
-	dynamicOutput[#dynamicOutput + 1] = "W=30"
 	dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=#@#Logs.txt"
 	dynamicOutput[#dynamicOutput + 1] = "ToolTipText=View"
 
