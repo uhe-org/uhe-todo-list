@@ -93,6 +93,16 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
 		dynamicOutput[#dynamicOutput + 1] = "GradientAngle=180"
 		dynamicOutput[#dynamicOutput + 1] = "Padding=#PaddingSize#"
+		dynamicOutput[#dynamicOutput + 1] = "MouseOverAction=[!SetOption MeterRepeatingTask"..i.." SolidColor #LightHighlight#,#NoGradientTransparency#][!UpdateMeter MeterRepeatingTask"..i.."][!Redraw]"
+		dynamicOutput[#dynamicOutput + 1] = "MouseLeaveAction=[!SetOption MeterRepeatingTask"..i.." SolidColor 0,0,0,0][!UpdateMeter MeterRepeatingTask"..i.."][!Redraw]"		dynamicOutput[#dynamicOutput + 1] = "[MeterRepeatingTask"..i.."Background]"
+		dynamicOutput[#dynamicOutput + 1] = "Meter=Image"
+		dynamicOutput[#dynamicOutput + 1] = "Group=OpaqueBackgroundGroup"
+		dynamicOutput[#dynamicOutput + 1] = "X=R"
+		dynamicOutput[#dynamicOutput + 1] = "Y=r"
+		dynamicOutput[#dynamicOutput + 1] = "W=300"
+		dynamicOutput[#dynamicOutput + 1] = "H=(14 + #SidePadding#)"
+		dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure MeasureRenameTextBox"..i.." \"ExecuteBatch 1\"]"
+		dynamicOutput[#dynamicOutput + 1] = "Padding=#PaddingSize#"
 		dynamicOutput[#dynamicOutput + 1] = "[MeterRepeatingTask"..i.."]"
 		dynamicOutput[#dynamicOutput + 1] = "Meter=String"
 		dynamicOutput[#dynamicOutput + 1] = "Text="..tasks[i]
@@ -100,17 +110,17 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "FontSize=14"
 		if string.find(recurring, "|"..i.."|") ~= nil then
 			dynamicOutput[#dynamicOutput + 1] = "FontColor=#LightHighlight#"
-			dynamicOutput[#dynamicOutput + 1] = "Group=OpaqueBackgroundGroup"
 		else
-			dynamicOutput[#dynamicOutput + 1] = "Group=OpaqueBackgroundGroup | TextGroup"
+			dynamicOutput[#dynamicOutput + 1] = "Group=TextGroup"
 		end
 		dynamicOutput[#dynamicOutput + 1] = "AntiAlias=1"
 		dynamicOutput[#dynamicOutput + 1] = "ClipString=2"
-		dynamicOutput[#dynamicOutput + 1] = "X=R"
+		dynamicOutput[#dynamicOutput + 1] = "X=r"
 		dynamicOutput[#dynamicOutput + 1] = "Y=r"
 		dynamicOutput[#dynamicOutput + 1] = "W=300"
-		dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure MeasureRenameTextBox"..i.." \"ExecuteBatch 1\"]"
 		dynamicOutput[#dynamicOutput + 1] = "Padding=#PaddingSize#"
+		dynamicOutput[#dynamicOutput + 1] = "MouseOverAction=[!SetOption MeterRepeatingTask"..i.." SolidColor #LightHighlight#,#NoGradientTransparency#][!UpdateMeter MeterRepeatingTask"..i.."][!Redraw]"
+		dynamicOutput[#dynamicOutput + 1] = "MouseLeaveAction=[!SetOption MeterRepeatingTask"..i.." SolidColor 0,0,0,0][!UpdateMeter MeterRepeatingTask"..i.."][!Redraw]"
 	end
 
 	for i=1,#tasks,1 do
