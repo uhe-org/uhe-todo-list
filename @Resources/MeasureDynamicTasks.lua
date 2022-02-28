@@ -50,32 +50,6 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
 	end
 
-	-- title for tasks
-	dynamicOutput[#dynamicOutput + 1] = "[MeterTitle]"
-	dynamicOutput[#dynamicOutput + 1] = "Meter=String"
-	dynamicOutput[#dynamicOutput + 1] = "Group=TextGroup | BackgroundGroup"
-	dynamicOutput[#dynamicOutput + 1] = "Text=#Title#"
-	dynamicOutput[#dynamicOutput + 1] = "AntiAlias=1"
-	dynamicOutput[#dynamicOutput + 1] = "FontFace=#DisplayFont#"
-	dynamicOutput[#dynamicOutput + 1] = "FontSize=20"
-	dynamicOutput[#dynamicOutput + 1] = "W=([MeterTaskIcon1:W] + [MeterRepeatingTask1:W] - (#SidePadding# * 2))"
-	dynamicOutput[#dynamicOutput + 1] = "Padding=#PaddingSize#"
-	dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure MeasureRenameTitleBox \"ExecuteBatch 1\"]"
-	dynamicOutput[#dynamicOutput + 1] = "ClipString=2"
-
-	dynamicOutput[#dynamicOutput + 1] = "[MeasureRenameTitleBox]"
-	dynamicOutput[#dynamicOutput + 1] = "Measure=Plugin"
-	dynamicOutput[#dynamicOutput + 1] = "Plugin=InputText"
-	dynamicOutput[#dynamicOutput + 1] = "H=([MeterTitle:H] - (#SidePadding# * 2))"
-	dynamicOutput[#dynamicOutput + 1] = "W=([MeterTitle:W] - (#SidePadding# * 2))"
-	dynamicOutput[#dynamicOutput + 1] = "X=#SidePadding#"
-	dynamicOutput[#dynamicOutput + 1] = "Y=#SidePadding#"
-	dynamicOutput[#dynamicOutput + 1] = "FontSize=20"
-	dynamicOutput[#dynamicOutput + 1] = "FontFace=#DisplayFont#"
-	dynamicOutput[#dynamicOutput + 1] = "DefaultValue=#Title#"
-	dynamicOutput[#dynamicOutput + 1] = "Group=TextBoxGroup | TextGroup"
-	dynamicOutput[#dynamicOutput + 1] = "Command1=[!WriteKeyValue Variables Title \"$UserInput$\"][!Refresh][!Refresh]"
-
 	-- dynamic meters
 	for i=1,#tasks,1 do
 		dynamicOutput[#dynamicOutput + 1] = "[MeterTaskIcon"..i.."]"
