@@ -73,10 +73,9 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "Group=OpaqueBackgroundGroup"
 		dynamicOutput[#dynamicOutput + 1] = "X=R"
 		dynamicOutput[#dynamicOutput + 1] = "Y=r"
-		dynamicOutput[#dynamicOutput + 1] = "W=300"
-		dynamicOutput[#dynamicOutput + 1] = "H=(14 + #SidePadding#)"
+		dynamicOutput[#dynamicOutput + 1] = "W=320"
+		dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H])"
 		dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure MeasureRenameTextBox"..i.." \"ExecuteBatch 1\"]"
-		dynamicOutput[#dynamicOutput + 1] = "Padding=#PaddingSize#"
 		dynamicOutput[#dynamicOutput + 1] = "[MeterRepeatingTask"..i.."]"
 		dynamicOutput[#dynamicOutput + 1] = "Meter=String"
 		dynamicOutput[#dynamicOutput + 1] = "Text="..tasks[i]
