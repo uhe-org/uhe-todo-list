@@ -85,7 +85,6 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "Group=OpaqueBackgroundGroup"
 		dynamicOutput[#dynamicOutput + 1] = "X=R"
 		dynamicOutput[#dynamicOutput + 1] = "Y=r"
-		dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure MeasureRenameTextBox"..i.." \"ExecuteBatch 1\"]"
 		dynamicOutput[#dynamicOutput + 1] = "[MeterRepeatingTask"..i.."Hover]"
 		dynamicOutput[#dynamicOutput + 1] = "Meter=Shape"
 		dynamicOutput[#dynamicOutput + 1] = "Shape=Rectangle 0,0,320,([MeterRepeatingTask"..i..":H]),#CornerRadius# | Extend Highlight | StrokeWidth 0"
@@ -93,7 +92,7 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
 		dynamicOutput[#dynamicOutput + 1] = "X=r"
 		dynamicOutput[#dynamicOutput + 1] = "Y=r"
-		dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure MeasureRenameTextBox"..i.." \"ExecuteBatch 1\"]"
+		dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure MeasureRenameTextBox"..i.." \"ExecuteBatch 1-2\"]"
 		dynamicOutput[#dynamicOutput + 1] = "[MeterRepeatingTask"..i.."]"
 		dynamicOutput[#dynamicOutput + 1] = "Meter=String"
 		dynamicOutput[#dynamicOutput + 1] = "Text="..tasks[i]
@@ -128,7 +127,9 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "W=305"
 		-- minus additional padding for the height, if any
 		dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] - (#SidePadding# * 2))"
-		dynamicOutput[#dynamicOutput + 1] = "Command1=[!CommandMeasure \"MeasureDynamicTasks\" \"RenameTask("..i..", '$UserInput$')\"][!Refresh][!Refresh]"
+		dynamicOutput[#dynamicOutput + 1] = "Command1=[!SetVariable placeholder $UserInput$"
+		dynamicOutput[#dynamicOutput + 1] = "Command2=[!CommandMeasure \"MeasureDynamicTasks\" \"RenameTask("..i..", '[MeasureRenameTextBox"..i.."]')\"][!Refresh][!Refresh]"
+		dynamicOutput[#dynamicOutput + 1] = "Substitute=\"'\":\"\\'\""
 	end
 
 	dynamicOutput[#dynamicOutput + 1] = "[Variables]"
