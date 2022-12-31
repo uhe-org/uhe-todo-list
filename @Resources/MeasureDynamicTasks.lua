@@ -220,7 +220,7 @@ function CheckLine(lineNumber)
 end
 
 
-function ResetAll()
+function ClearTasks()
 
 	local hFile = io.open(sTaskListFile, "r")
 	local lines = {}
