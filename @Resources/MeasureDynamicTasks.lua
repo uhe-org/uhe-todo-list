@@ -44,37 +44,55 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "Measure=String"
 		dynamicOutput[#dynamicOutput + 1] = "String=#check"..i.."state#"
 		dynamicOutput[#dynamicOutput + 1] = "IfMatch=0"
-		dynamicOutput[#dynamicOutput + 1] = "IfMatchAction=[!SetVariable check"..i.." fa-sq]"
-		dynamicOutput[#dynamicOutput + 1] = "IfNotMatchAction=[!SetVariable check"..i.." fa-check-sq]"
+		dynamicOutput[#dynamicOutput + 1] = "IfMatchAction=[!SetVariable check"..i.." fa-sq][!SetOption MeterRepeatingTask"..i.." InlineSetting \"\"][!SetOption MeterRepeatingTask"..i.." InlineSetting2 \"\"]"
+		dynamicOutput[#dynamicOutput + 1] = "IfNotMatchAction=[!SetVariable check"..i.." fa-check-sq][!SetOption MeterRepeatingTask"..i.." InlineSetting Strikethrough][!SetOption MeterRepeatingTask"..i.." InlineSetting2 \"Color | 255,255,255,50\"]"
 		dynamicOutput[#dynamicOutput + 1] = "IfMatchMode=1"
 		dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
 	end
 
 	-- dynamic meters
 	for i=1,#tasks,1 do
+		dynamicOutput[#dynamicOutput + 1] = "[MeterTaskIcon"..i.."Background]"
+		dynamicOutput[#dynamicOutput + 1] = "Meter=Shape"
+		dynamicOutput[#dynamicOutput + 1] = "Shape=Rectangle 0,0,[MeterTaskIcon"..i..":W],44,#CornerRadius# | Fill LinearGradient Gradient | StrokeWidth 0"
+		dynamicOutput[#dynamicOutput + 1] = "Gradient=0 | 0,0,0,0 ; 0.0"
+		dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
+		dynamicOutput[#dynamicOutput + 1] = "Group=BackgroundGroup"
+		dynamicOutput[#dynamicOutput + 1] = "X=0"
+		dynamicOutput[#dynamicOutput + 1] = "Y=R"
 		dynamicOutput[#dynamicOutput + 1] = "[MeterTaskIcon"..i.."]"
 		dynamicOutput[#dynamicOutput + 1] = "Meter=String"
 		dynamicOutput[#dynamicOutput + 1] = "MeasureName=MeasureTaskIcon"..i
 		dynamicOutput[#dynamicOutput + 1] = "Text=[#[#check"..i.."]]"
 		dynamicOutput[#dynamicOutput + 1] = "FontFace=#RegularIconFace#"
 		dynamicOutput[#dynamicOutput + 1] = "FontSize=18"
-		dynamicOutput[#dynamicOutput + 1] = "Group=BackgroundGroup | TextGroup"
+		dynamicOutput[#dynamicOutput + 1] = "Group=TextGroup"
 		dynamicOutput[#dynamicOutput + 1] = "AntiAlias=1"
-		dynamicOutput[#dynamicOutput + 1] = "X=0"
-		dynamicOutput[#dynamicOutput + 1] = "Y=R"
+		dynamicOutput[#dynamicOutput + 1] = "X=r"
+		dynamicOutput[#dynamicOutput + 1] = "Y=r"
 		dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] - (#SidePadding# * 2))"
-		dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!SetVariable check"..i.."state (1-#check"..i.."state#)][!CommandMeasure \"MeasureDynamicTasks\" \"CheckLine("..i..")\"]"
+		dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!SetVariable check"..i.."state (1-#check"..i.."state#)][!CommandMeasure \"MeasureDynamicTasks\" \"CheckLine("..i..")\"][!Update]"
 		dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
 		dynamicOutput[#dynamicOutput + 1] = "GradientAngle=180"
 		dynamicOutput[#dynamicOutput + 1] = "Padding=#PaddingSize#"
-		dynamicOutput[#dynamicOutput + 1] = "MouseOverAction=[!SetOption MeterRepeatingTask"..i.." SolidColor #LightHighlight#,#NoGradientTransparency#][!UpdateMeter MeterRepeatingTask"..i.."][!Redraw]"
-		dynamicOutput[#dynamicOutput + 1] = "MouseLeaveAction=[!SetOption MeterRepeatingTask"..i.." SolidColor 0,0,0,0][!UpdateMeter MeterRepeatingTask"..i.."][!Redraw]"		dynamicOutput[#dynamicOutput + 1] = "[MeterRepeatingTask"..i.."Background]"
-		dynamicOutput[#dynamicOutput + 1] = "Meter=Image"
+		dynamicOutput[#dynamicOutput + 1] = "MouseOverAction=[!SetOption MeterRepeatingTask"..i.."Hover Highlight \"FillColor #LightHighlight#,#NoGradientTransparency#\"][!UpdateMeter MeterRepeatingTask"..i.."Hover][!Redraw]"
+		dynamicOutput[#dynamicOutput + 1] = "MouseLeaveAction=[!SetOption MeterRepeatingTask"..i.."Hover Highlight \"FillColor 0,0,0,0\"][!UpdateMeter MeterRepeatingTask"..i.."Hover][!Redraw]"
+		dynamicOutput[#dynamicOutput + 1] = "[MeterRepeatingTask"..i.."Background]"
+		dynamicOutput[#dynamicOutput + 1] = "Meter=Shape"
+		dynamicOutput[#dynamicOutput + 1] = "Shape=Rectangle 0,0,320,([MeterRepeatingTask"..i..":H]),#CornerRadius# | Fill LinearGradient Gradient | StrokeWidth 0"
+		dynamicOutput[#dynamicOutput + 1] = "Gradient=0 | 0,0,0,0 ; 0.0"
+		dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
 		dynamicOutput[#dynamicOutput + 1] = "Group=OpaqueBackgroundGroup"
 		dynamicOutput[#dynamicOutput + 1] = "X=R"
 		dynamicOutput[#dynamicOutput + 1] = "Y=r"
-		dynamicOutput[#dynamicOutput + 1] = "W=320"
-		dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H])"
+		dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure MeasureRenameTextBox"..i.." \"ExecuteBatch 1\"]"
+		dynamicOutput[#dynamicOutput + 1] = "[MeterRepeatingTask"..i.."Hover]"
+		dynamicOutput[#dynamicOutput + 1] = "Meter=Shape"
+		dynamicOutput[#dynamicOutput + 1] = "Shape=Rectangle 0,0,320,([MeterRepeatingTask"..i..":H]),#CornerRadius# | Extend Highlight | StrokeWidth 0"
+		dynamicOutput[#dynamicOutput + 1] = "Highlight=FillColor 0,0,0,0"
+		dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
+		dynamicOutput[#dynamicOutput + 1] = "X=r"
+		dynamicOutput[#dynamicOutput + 1] = "Y=r"
 		dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure MeasureRenameTextBox"..i.." \"ExecuteBatch 1\"]"
 		dynamicOutput[#dynamicOutput + 1] = "[MeterRepeatingTask"..i.."]"
 		dynamicOutput[#dynamicOutput + 1] = "Meter=String"
@@ -92,8 +110,8 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "Y=r"
 		dynamicOutput[#dynamicOutput + 1] = "W=300"
 		dynamicOutput[#dynamicOutput + 1] = "Padding=#PaddingSize#"
-		dynamicOutput[#dynamicOutput + 1] = "MouseOverAction=[!SetOption MeterRepeatingTask"..i.." SolidColor #LightHighlight#,#NoGradientTransparency#][!UpdateMeter MeterRepeatingTask"..i.."][!Redraw]"
-		dynamicOutput[#dynamicOutput + 1] = "MouseLeaveAction=[!SetOption MeterRepeatingTask"..i.." SolidColor 0,0,0,0][!UpdateMeter MeterRepeatingTask"..i.."][!Redraw]"
+		dynamicOutput[#dynamicOutput + 1] = "MouseOverAction=[!SetOption MeterRepeatingTask"..i.."Hover Highlight \"FillColor #LightHighlight#,#NoGradientTransparency#\"][!UpdateMeter MeterRepeatingTask"..i.."Hover][!Redraw]"
+		dynamicOutput[#dynamicOutput + 1] = "MouseLeaveAction=[!SetOption MeterRepeatingTask"..i.."Hover Highlight \"FillColor 0,0,0,0\"][!UpdateMeter MeterRepeatingTask"..i.."Hover][!Redraw]"
 	end
 
 	for i=1,#tasks,1 do
@@ -125,53 +143,6 @@ function Update()
 			dynamicOutput[#dynamicOutput + 1] = "check"..i.."=fa-sq"
 		end
 	end
-
-	-- include Font Awesome icons
-	dynamicOutput[#dynamicOutput + 1] = "@Include=#@#FontAwesome.inc"
-
-	-- style for button
-	dynamicOutput[#dynamicOutput + 1] = "[styleButton]"
-	dynamicOutput[#dynamicOutput + 1] = "FontFace=#IconFace#"
-	dynamicOutput[#dynamicOutput + 1] = "FontSize=16"
-	dynamicOutput[#dynamicOutput + 1] = "Group = TextGroup | BackgroundGroup"
-	dynamicOutput[#dynamicOutput + 1] = "AntiAlias=1"
-	dynamicOutput[#dynamicOutput + 1] = "X=R"
-	dynamicOutput[#dynamicOutput + 1] = "Y=r"
-	dynamicOutput[#dynamicOutput + 1] = "Padding=#PaddingSize#"
-
-	-- refresh button
-	dynamicOutput[#dynamicOutput + 1] = "[MeterRefreshTasks]"
-	dynamicOutput[#dynamicOutput + 1] = "Meter=String"
-	dynamicOutput[#dynamicOutput + 1] = "MeterStyle=styleButton"
-	dynamicOutput[#dynamicOutput + 1] = "Text=#fa-refresh#"
-	dynamicOutput[#dynamicOutput + 1] = "X=0"
-	dynamicOutput[#dynamicOutput + 1] = "Y=R"
-	dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!Refresh][!Refresh]"
-	dynamicOutput[#dynamicOutput + 1] = "ToolTipText=Refresh"
-
-	-- reset button
-	dynamicOutput[#dynamicOutput + 1] = "[MeterUndoTasks]"
-	dynamicOutput[#dynamicOutput + 1] = "Meter=String"
-	dynamicOutput[#dynamicOutput + 1] = "MeterStyle=styleButton"
-	dynamicOutput[#dynamicOutput + 1] = "Text=#fa-undo#"
-	dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure \"MeasureDynamicTasks\" \"ResetAll()\"][!Refresh][!Refresh]"
-	dynamicOutput[#dynamicOutput + 1] = "ToolTipText=Clear"
-
-	-- add button
-	dynamicOutput[#dynamicOutput + 1] = "[MeterAddTasks]"
-	dynamicOutput[#dynamicOutput + 1] = "Meter=String"
-	dynamicOutput[#dynamicOutput + 1] = "MeterStyle=styleButton"
-	dynamicOutput[#dynamicOutput + 1] = "Text=#fa-plus-sq#"
-	dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure MeasureInput \"ExecuteBatch 1-2\"]"
-	dynamicOutput[#dynamicOutput + 1] = "ToolTipText=Add"
-
-	-- view button
-	dynamicOutput[#dynamicOutput + 1] = "[MeterViewTasks]"
-	dynamicOutput[#dynamicOutput + 1] = "Meter=String"
-	dynamicOutput[#dynamicOutput + 1] = "MeterStyle=styleButton"
-	dynamicOutput[#dynamicOutput + 1] = "Text=#fa-book#"
-	dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=#@#Logs.txt"
-	dynamicOutput[#dynamicOutput + 1] = "ToolTipText=View"
 
 	-- create dynamic meter file
 	local File = io.open(sDynamicMeterFile, 'w')
