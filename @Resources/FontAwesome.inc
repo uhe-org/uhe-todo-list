@@ -1,7 +1,7 @@
 [Variables]
 fa-check-sq=[\xf14a]
 fa-sq=[\xf0c8]
-fa-undo=[\xf0e2]
+fa-eraser=[\xf12d]
 fa-plus-sq=[\xf0fe]
 fa-save=[\xf0c7]
 fa-book=[\xf02d]
