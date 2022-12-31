@@ -2,7 +2,7 @@
 
 **This branch needs https://github.com/Joehuu/uhe in the same `Rainmeter/Skins` folder to work correctly.**
 
-Simple Rainmeter todo list skin.
+Simple Rainmeter todo list skin based on https://github.com/Pernickety/rainmeter-todo-list.
 
 ## Installing
 
