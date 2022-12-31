@@ -128,7 +128,7 @@ function Update()
 		-- minus additional padding for the height, if any
 		dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] - (#SidePadding# * 2))"
 		dynamicOutput[#dynamicOutput + 1] = "Command1=[!SetVariable placeholder $UserInput$"
-		dynamicOutput[#dynamicOutput + 1] = "Command2=[!CommandMeasure \"MeasureDynamicTasks\" \"RenameTask("..i..", '[MeasureRenameTextBox"..i.."]')\"][!Refresh][!Refresh]"
+		dynamicOutput[#dynamicOutput + 1] = "Command2=[!CommandMeasure \"MeasureDynamicTasks\" \"RenameTask("..i..", '[MeasureRenameTextBox"..i.."]')\"][!CommandMeasure \"MeasureDynamicTasks\" \"Update()\"][!Refresh]"
 		dynamicOutput[#dynamicOutput + 1] = "Substitute=\"'\":\"\\'\""
 	end
 
