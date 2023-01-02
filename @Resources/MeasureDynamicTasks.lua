@@ -60,6 +60,7 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "Group=BackgroundGroup"
 		dynamicOutput[#dynamicOutput + 1] = "X=0"
 		dynamicOutput[#dynamicOutput + 1] = "Y=R"
+
 		dynamicOutput[#dynamicOutput + 1] = "[MeterTaskIcon"..i.."]"
 		dynamicOutput[#dynamicOutput + 1] = "Meter=String"
 		dynamicOutput[#dynamicOutput + 1] = "MeasureName=MeasureTaskIcon"..i
@@ -77,6 +78,7 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "Padding=#PaddingSize#"
 		dynamicOutput[#dynamicOutput + 1] = "MouseOverAction=[!SetOption MeterRepeatingTask"..i.."Hover Highlight \"FillColor #LightHighlight#,#NoGradientTransparency#\"][!UpdateMeter MeterRepeatingTask"..i.."Hover][!Redraw]"
 		dynamicOutput[#dynamicOutput + 1] = "MouseLeaveAction=[!SetOption MeterRepeatingTask"..i.."Hover Highlight \"FillColor 0,0,0,0\"][!UpdateMeter MeterRepeatingTask"..i.."Hover][!Redraw]"
+
 		dynamicOutput[#dynamicOutput + 1] = "[MeterRepeatingTask"..i.."Background]"
 		dynamicOutput[#dynamicOutput + 1] = "Meter=Shape"
 		dynamicOutput[#dynamicOutput + 1] = "Shape=Rectangle 0,0,320,([MeterRepeatingTask"..i..":H]),#CornerRadius# | Fill LinearGradient Gradient | StrokeWidth 0"
@@ -85,6 +87,7 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "Group=OpaqueBackgroundGroup"
 		dynamicOutput[#dynamicOutput + 1] = "X=R"
 		dynamicOutput[#dynamicOutput + 1] = "Y=r"
+
 		dynamicOutput[#dynamicOutput + 1] = "[MeterRepeatingTask"..i.."Hover]"
 		dynamicOutput[#dynamicOutput + 1] = "Meter=Shape"
 		dynamicOutput[#dynamicOutput + 1] = "Shape=Rectangle 0,0,320,([MeterRepeatingTask"..i..":H]),#CornerRadius# | Extend Highlight | StrokeWidth 0"
@@ -93,6 +96,7 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "X=r"
 		dynamicOutput[#dynamicOutput + 1] = "Y=r"
 		dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure MeasureRenameTextBox"..i.." \"ExecuteBatch 1-2\"]"
+
 		dynamicOutput[#dynamicOutput + 1] = "[MeterRepeatingTask"..i.."]"
 		dynamicOutput[#dynamicOutput + 1] = "Meter=String"
 		dynamicOutput[#dynamicOutput + 1] = "Text="..tasks[i]
@@ -111,9 +115,7 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "Padding=#PaddingSize#"
 		dynamicOutput[#dynamicOutput + 1] = "MouseOverAction=[!SetOption MeterRepeatingTask"..i.."Hover Highlight \"FillColor #LightHighlight#,#NoGradientTransparency#\"][!UpdateMeter MeterRepeatingTask"..i.."Hover][!Redraw]"
 		dynamicOutput[#dynamicOutput + 1] = "MouseLeaveAction=[!SetOption MeterRepeatingTask"..i.."Hover Highlight \"FillColor 0,0,0,0\"][!UpdateMeter MeterRepeatingTask"..i.."Hover][!Redraw]"
-	end
 
-	for i=1,#tasks,1 do
 		dynamicOutput[#dynamicOutput + 1] = "[MeasureRenameTextBox"..i.."]"
 		dynamicOutput[#dynamicOutput + 1] = "Measure=Plugin"
 		dynamicOutput[#dynamicOutput + 1] = "Plugin=InputText"
