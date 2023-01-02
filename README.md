@@ -14,12 +14,6 @@ Simple Rainmeter todo list skin based on https://github.com/Pernickety/rainmeter
 
 ## Usage
 
-* Refresh button can be used to update the task list if you edit the `tasks.txt` file directly
-* Reset button can be used to reset the status of all tasks and remove completed, non-recurring tasks
-* Add button will allow you to add more tasks without editing the `tasks.txt` file directly
-
-![Add Tasks](@Resources/GIFs/addtasks.gif)
-
-![Complete Tasks](@Resources/GIFs/completetasks.gif)
-
-![Clear Completed Tasks](@Resources/GIFs/clearcompletetasks.gif)
+| Add Tasks | Complete Tasks | Clear Completed Tasks |
+| --- | --- | --- |
+|![Add Tasks](@Resources/GIFs/addtasks.gif) | ![Complete Tasks](@Resources/GIFs/completetasks.gif) | ![Clear Completed Tasks](@Resources/GIFs/clearcompletetasks.gif) |
