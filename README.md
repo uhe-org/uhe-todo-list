@@ -23,14 +23,3 @@ Simple Rainmeter todo list skin based on https://github.com/Pernickety/rainmeter
 ![Complete Tasks](@Resources/GIFs/completetasks.gif)
 
 ![Clear Completed Tasks](@Resources/GIFs/clearcompletetasks.gif)
-
-## Editing Tasks Directly
-
-A quick way to get to the correct file path is to right-click the todo list and select `Manage skin` from Rainmeter's menu. Now right-click the `todo` folder and select `Open folder` - an explorer window should open you right to the txt location.
-
-* Each line is a new task
-* The file should have an empty line at the end to preserve proper formatting
-* Lines that start with +... are completed
-* Lines that end with ...|R are recurring
-
-Once you are done editing the file you can save and close it. Now click the Refresh button (furthest left) below the task list. Your changes should now be visible.
