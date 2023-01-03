@@ -1,0 +1,8 @@
+{
+    "Lua.diagnostics.globals": [
+        "SELF"
+    ],
+    "Lua.diagnostics.disable": [
+        "need-check-nil"
+    ]
+}

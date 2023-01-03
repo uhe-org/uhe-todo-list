@@ -1,21 +1,21 @@
 function Initialize()
 
-	sDynamicMeterFile = SELF:GetOption('DynamicMeterFile')
-	sTaskListFile = SELF:GetOption('TaskListFile')
-	sLogFile = SELF:GetOption('LogFile')
+	SDynamicMeterFile = SELF:GetOption('DynamicMeterFile')
+	STaskListFile = SELF:GetOption('TaskListFile')
+	SLogFile = SELF:GetOption('LogFile')
 
 end
 
 
 function Update()
 
-	dynamicOutput = {}
-	tasks = {}
-	checked = ""
-	recurring = ""
+	local dynamicOutput = {}
+	local tasks = {}
+	local checked = ""
+	local recurring = ""
 
 	-- Iterate through each line in the task list
-	for line in io.lines(sTaskListFile) do
+	for line in io.lines(STaskListFile) do
 
 		-- check if the task is complete
 		if string.sub(line,1,1) == "+" then
@@ -186,17 +186,15 @@ function Update()
 	end
 
 	-- create dynamic meter file
-	local File = io.open(sDynamicMeterFile, 'w')
+	local File = io.open(SDynamicMeterFile, 'w')
 
 	-- error handling
 	if not File then
-		print('Update: unable to open file at ' .. sDynamicMeterFile)
+		print('Update: unable to open file at ' .. SDynamicMeterFile)
 		return
 	end
 
-	output = table.concat(dynamicOutput, '\n')
-
-	File:write(output)
+	File:write(table.concat(dynamicOutput, '\n'))
 	File:close()
 
 	return true
@@ -206,7 +204,7 @@ end
 
 function CheckLine(lineNumber)
 
-	local hFile = io.open(sTaskListFile, "r")
+	local hFile = io.open(STaskListFile, "r")
 	local lines = {}
 	local restOfFile
 	local lineCt = 1
@@ -245,7 +243,7 @@ function CheckLine(lineNumber)
 	hFile:close()
 
 	-- open task list for writing
-	hFile = io.open(sTaskListFile, "w")
+	hFile = io.open(STaskListFile, "w")
 
 	-- write lines of file from start to altered line
 	for i, line in ipairs(lines) do
@@ -262,7 +260,7 @@ end
 
 function ClearTasks()
 
-	local hFile = io.open(sTaskListFile, "r")
+	local hFile = io.open(STaskListFile, "r")
 	local lines = {}
 
 	-- read through task list
@@ -285,7 +283,7 @@ function ClearTasks()
 	hFile:close()
 
 	-- open task list for writing
-	hFile = io.open(sTaskListFile, "w")
+	hFile = io.open(STaskListFile, "w")
 
 	for i, line in ipairs(lines) do
 	  hFile:write(line, "\n")
@@ -301,12 +299,12 @@ end
 function AddTask(newline)
 
 	-- read entire task list
-	local hFile = io.open(sTaskListFile, "r")
+	local hFile = io.open(STaskListFile, "r")
 	local wholeFile = hFile:read("*a")
 	hFile:close()
 
 	-- write task list back to itself and add new line
-	hFile = io.open(sTaskListFile, "w")
+	hFile = io.open(STaskListFile, "w")
 	hFile:write(wholeFile)
 	hFile:write(newline, "\n")
 	hFile:close()
@@ -316,20 +314,21 @@ function AddTask(newline)
 end
 
 function LogTask(task)
-	local logFile = io.open(sLogFile, "r")
+	local logFile = io.open(SLogFile, "r")
 
 	-- create a new log file if it doesn't exist
 	if(logFile == nil) then
-		logFile = io.open(sTaskListFile, "w")
+		logFile = io.open(STaskListFile, "w")
 		logFile:close()
-		logFile = io.open(sTaskListFile, "r")
+		logFile = io.open(STaskListFile, "r")
 	end
 
 	local readFile = logFile:read("*a")
 	logFile:close()
 
-	logFile = io.open(sLogFile, "w")
+	logFile = io.open(SLogFile, "w")
 	logFile:write(readFile)
+---@diagnostic disable-next-line: param-type-mismatch
 	logFile:write(os.date())
 	logFile:write(': ')
 	logFile:write(task, "\n")
@@ -337,7 +336,7 @@ function LogTask(task)
 end
 
 function RenameTask(lineNumber, newTaskName)
-	local hFile = io.open(sTaskListFile, "r")
+	local hFile = io.open(STaskListFile, "r")
 	local lines = {}
 	local restOfFile
 	local lineCt = 1
@@ -368,7 +367,7 @@ function RenameTask(lineNumber, newTaskName)
 	hFile:close()
 
 	-- open task list for writing
-	hFile = io.open(sTaskListFile, "w")
+	hFile = io.open(STaskListFile, "w")
 
 	-- write lines of file from start to altered line
 	for i, line in ipairs(lines) do
@@ -380,7 +379,7 @@ function RenameTask(lineNumber, newTaskName)
 end
 
 function MoveTask(lineNumber, direction)
-	local hFile = io.open(sTaskListFile, "r")
+	local hFile = io.open(STaskListFile, "r")
 	local lines = {}
 	local restOfFile
 	local lineCt = 1
@@ -417,7 +416,7 @@ function MoveTask(lineNumber, direction)
 	hFile:close()
 
 	-- open task list for writing
-	hFile = io.open(sTaskListFile, "w")
+	hFile = io.open(STaskListFile, "w")
 
 	-- write lines of file from start to altered line
 	for i, line in ipairs(lines) do
