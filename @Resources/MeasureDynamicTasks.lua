@@ -113,8 +113,8 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "Y=r"
 		dynamicOutput[#dynamicOutput + 1] = "W=300"
 		dynamicOutput[#dynamicOutput + 1] = "Padding=#PaddingSize#"
-		dynamicOutput[#dynamicOutput + 1] = "MouseOverAction=[!SetOption MeterRepeatingTask"..i.."Hover Highlight \"FillColor #LightHighlight#,#NoGradientTransparency#\"][!UpdateMeter MeterRepeatingTask"..i.."Hover][!Redraw]"
-		dynamicOutput[#dynamicOutput + 1] = "MouseLeaveAction=[!SetOption MeterRepeatingTask"..i.."Hover Highlight \"FillColor 0,0,0,0\"][!UpdateMeter MeterRepeatingTask"..i.."Hover][!Redraw]"
+		dynamicOutput[#dynamicOutput + 1] = "MouseOverAction=[!SetOption MeterRepeatingTask"..i.."Hover Highlight \"FillColor #LightHighlight#,#NoGradientTransparency#\"][!UpdateMeter MeterRepeatingTask"..i.."Hover][!ShowMeterGroup MoveTaskGroup"..i.."][!UpdateMeterGroup MoveTaskGroup"..i.."][!Redraw]"
+		dynamicOutput[#dynamicOutput + 1] = "MouseLeaveAction=[!SetOption MeterRepeatingTask"..i.."Hover Highlight \"FillColor 0,0,0,0\"][!UpdateMeter MeterRepeatingTask"..i.."Hover][!HideMeterGroup MoveTaskGroup"..i.."][!UpdateMeterGroup MoveTaskGroup"..i.."][!Redraw]"
 
 		dynamicOutput[#dynamicOutput + 1] = "[MeasureRenameTextBox"..i.."]"
 		dynamicOutput[#dynamicOutput + 1] = "Measure=Plugin"
@@ -132,6 +132,44 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "Command1=[!SetVariable placeholder $UserInput$"
 		dynamicOutput[#dynamicOutput + 1] = "Command2=[!CommandMeasure \"MeasureDynamicTasks\" \"RenameTask("..i..", '[MeasureRenameTextBox"..i.."]')\"][!CommandMeasure \"MeasureDynamicTasks\" \"Update()\"][!Refresh]"
 		dynamicOutput[#dynamicOutput + 1] = "Substitute=\"'\":\"\\'\""
+
+		if (i >= 2) then
+			dynamicOutput[#dynamicOutput + 1] = "[MeterMoveUpTask"..i.."Background]"
+			dynamicOutput[#dynamicOutput + 1] = "Meter=Shape"
+			dynamicOutput[#dynamicOutput + 1] = "Shape=Rectangle 0,0,[MeterMoveUpTask"..i..":W],([MeterRepeatingTask"..i..":H]),#CornerRadius# | Fill LinearGradient Gradient | StrokeWidth 0"
+			dynamicOutput[#dynamicOutput + 1] = "Gradient=0 | 0,0,0,0 ; 0.0"
+			dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
+			dynamicOutput[#dynamicOutput + 1] = "Group=BackgroundGroup | MoveTaskGroup"..i
+			dynamicOutput[#dynamicOutput + 1] = "X=-[MeterMoveUpTask"..i..":W]R"
+			dynamicOutput[#dynamicOutput + 1] = "Y=r"
+			dynamicOutput[#dynamicOutput + 1] = "Hidden=1"
+
+			dynamicOutput[#dynamicOutput + 1] = "[MeterMoveUpTask"..i.."Hover]"
+			dynamicOutput[#dynamicOutput + 1] = "Meter=Shape"
+			dynamicOutput[#dynamicOutput + 1] = "Shape=Rectangle 0,0,([MeterMoveUpTask"..i..":W]),([MeterRepeatingTask"..i..":H]),#CornerRadius# | Extend Highlight | StrokeWidth 0"
+			dynamicOutput[#dynamicOutput + 1] = "Highlight=FillColor 0,0,0,0"
+			dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
+			dynamicOutput[#dynamicOutput + 1] = "X=r"
+			dynamicOutput[#dynamicOutput + 1] = "Y=r"
+			dynamicOutput[#dynamicOutput + 1] = "Group=MoveTaskGroup"..i
+			dynamicOutput[#dynamicOutput + 1] = "Hidden=1"
+
+			dynamicOutput[#dynamicOutput + 1] = "[MeterMoveUpTask"..i.."]"
+			dynamicOutput[#dynamicOutput + 1] = "Meter=String"
+			dynamicOutput[#dynamicOutput + 1] = "FontFace=#IconFace#"
+			dynamicOutput[#dynamicOutput + 1] = "FontSize=14"
+			dynamicOutput[#dynamicOutput + 1] = "Group=TextGroup | MoveTaskGroup"..i
+			dynamicOutput[#dynamicOutput + 1] = "AntiAlias=1"
+			dynamicOutput[#dynamicOutput + 1] = "X=r"
+			dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
+			dynamicOutput[#dynamicOutput + 1] = "Y=([MeterRepeatingTask"..i..":H] - [MeterMoveUpTask"..i..":H])r"
+			dynamicOutput[#dynamicOutput + 1] = "Text=#fa-chevron-up#"
+			dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure \"MeasureDynamicTasks\" \"MoveTask("..i..", -1)\"][!CommandMeasure \"MeasureDynamicTasks\" \"Update()\"][!Refresh]"
+			dynamicOutput[#dynamicOutput + 1] = "Padding=#PaddingSize#"
+			dynamicOutput[#dynamicOutput + 1] = "MouseOverAction=[!SetOption MeterMoveUpTask"..i.."Hover Highlight \"FillColor #LightHighlight#,#NoGradientTransparency#\"][!UpdateMeter MeterMoveUpTask"..i.."Hover][!Redraw]"
+			dynamicOutput[#dynamicOutput + 1] = "MouseLeaveAction=[!SetOption MeterMoveUpTask"..i.."Hover Highlight \"FillColor 0,0,0,0\"][!UpdateMeter MeterMoveUpTask"..i.."Hover][!Redraw]"
+			dynamicOutput[#dynamicOutput + 1] = "Hidden=1"
+		end
 	end
 
 	dynamicOutput[#dynamicOutput + 1] = "[Variables]"
@@ -312,6 +350,55 @@ function RenameTask(lineNumber, newTaskName)
 			-- rename task
 			if (newTaskName ~= "") then
 				lines[#lines + 1] = newTaskName
+			end
+
+			-- read the rest of the file
+			restOfFile = hFile:read("*a")
+			-- and break from loop
+			break
+		else
+			-- write the lines of the file before altered line
+			lineCt = lineCt + 1
+			lines[#lines + 1] = line
+		end
+
+	end
+
+	-- close task list for reading
+	hFile:close()
+
+	-- open task list for writing
+	hFile = io.open(sTaskListFile, "w")
+
+	-- write lines of file from start to altered line
+	for i, line in ipairs(lines) do
+	  hFile:write(line, "\n")
+	end
+
+	hFile:write(restOfFile)
+	hFile:close()
+end
+
+function MoveTask(lineNumber, direction)
+	local hFile = io.open(sTaskListFile, "r")
+	local lines = {}
+	local restOfFile
+	local lineCt = 1
+	local nearLine
+
+	-- read through task list
+	for line in hFile:lines() do
+
+		-- find the lines to be swapped
+		if(lineCt == lineNumber) then
+			-- swap task
+			if (direction == -1) then
+				nearLine = lines[#lines]
+				lines[#lines + 1] = line
+				lines[#lines - 1] = lines[#lines]
+				lines[#lines] = nearLine
+
+			-- todo: add other direction support
 			end
 
 			-- read the rest of the file
