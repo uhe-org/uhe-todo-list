@@ -72,7 +72,7 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "X=r"
 		dynamicOutput[#dynamicOutput + 1] = "Y=r"
 		dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] - (#SidePadding# * 2))"
-		dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!SetVariable check"..i.."state (1-#check"..i.."state#)][!CommandMeasure \"MeasureDynamicTasks\" \"CheckLine("..i..")\"][!Update]"
+		dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!SetVariable check"..i.."state (1-#check"..i.."state#)][!CommandMeasure \"MeasureDynamicTasks\" \"CheckLine("..i..")\"][!CommandMeasure \"MeasureDynamicTasks\" \"Update()\"][!Update]"
 		dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
 		dynamicOutput[#dynamicOutput + 1] = "GradientAngle=180"
 		dynamicOutput[#dynamicOutput + 1] = "Padding=#PaddingSize#"
