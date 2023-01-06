@@ -96,6 +96,7 @@ function Update()
 		dynamicOutput[#dynamicOutput + 1] = "X=r"
 		dynamicOutput[#dynamicOutput + 1] = "Y=r"
 		dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure MeasureRenameTextBox"..i.." \"ExecuteBatch 1-2\"]"
+		dynamicOutput[#dynamicOutput + 1] = "MouseScrollUpAction=[!CommandMeasure \"MeasureDynamicTasks\" \"MoveTask("..i..", -1)\"][!CommandMeasure \"MeasureDynamicTasks\" \"Update()\"][!Refresh]"
 
 		dynamicOutput[#dynamicOutput + 1] = "[MeterRepeatingTask"..i.."]"
 		dynamicOutput[#dynamicOutput + 1] = "Meter=String"
