@@ -101,14 +101,14 @@ function Update()
 
         dynamicOutput[#dynamicOutput + 1] = "[MeterRepeatingTask"..i.."]"
         dynamicOutput[#dynamicOutput + 1] = "Meter=String"
-        dynamicOutput[#dynamicOutput + 1] = "Text="..tasks[i]
+        if string.find(recurring, "|"..i.."|") ~= nil then
+            dynamicOutput[#dynamicOutput + 1] = "Text="..tasks[i].." (Repeating)"
+        else
+            dynamicOutput[#dynamicOutput + 1] = "Text="..tasks[i]
+        end
         dynamicOutput[#dynamicOutput + 1] = "FontFace=#FontFace#"
         dynamicOutput[#dynamicOutput + 1] = "FontSize=#TaskFontSize#"
-        if string.find(recurring, "|"..i.."|") ~= nil then
-            dynamicOutput[#dynamicOutput + 1] = "FontColor=#LightHighlight#"
-        else
-            dynamicOutput[#dynamicOutput + 1] = "Group=TextGroup"
-        end
+        dynamicOutput[#dynamicOutput + 1] = "Group=TextGroup"
         dynamicOutput[#dynamicOutput + 1] = "AntiAlias=1"
         dynamicOutput[#dynamicOutput + 1] = "ClipString=2"
         dynamicOutput[#dynamicOutput + 1] = "X=r"
