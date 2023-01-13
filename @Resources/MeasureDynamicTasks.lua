@@ -15,6 +15,16 @@ function Update()
     local checked = ""
     local recurring = ""
 
+    local tasksFile = io.open(STaskListFile, "r")
+
+    -- create a new tasks file if it doesn't exist
+    if(tasksFile == nil) then
+        tasksFile = io.open(STaskListFile, "w")
+        tasksFile:write("Recurring task|R\nThing to do today\nThing to do tomorrow")
+    end
+
+    tasksFile:close();
+
     -- Iterate through each line in the task list
     for line in io.lines(STaskListFile) do
 
