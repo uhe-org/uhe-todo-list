@@ -70,7 +70,11 @@ function Update()
         dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
         dynamicOutput[#dynamicOutput + 1] = "Group=BackgroundGroup"
         dynamicOutput[#dynamicOutput + 1] = "X=0"
-        dynamicOutput[#dynamicOutput + 1] = "Y=R"
+        if (i == 1) then
+            dynamicOutput[#dynamicOutput + 1] = "Y=[MeterTitleBackground:H]"
+        else
+            dynamicOutput[#dynamicOutput + 1] = "Y=R"
+        end
 
         dynamicOutput[#dynamicOutput + 1] = "[MeterTaskIcon"..i.."]"
         dynamicOutput[#dynamicOutput + 1] = "Meter=String"
