@@ -115,11 +115,7 @@ function Update()
 
         dynamicOutput[#dynamicOutput + 1] = "[MeterRepeatingTask"..i.."]"
         dynamicOutput[#dynamicOutput + 1] = "Meter=String"
-        if string.find(recurring, "|"..i.."|") ~= nil then
-            dynamicOutput[#dynamicOutput + 1] = "Text="..tasks[i].." (Repeating)"
-        else
-            dynamicOutput[#dynamicOutput + 1] = "Text="..tasks[i]
-        end
+        dynamicOutput[#dynamicOutput + 1] = "Text="..tasks[i]
         dynamicOutput[#dynamicOutput + 1] = "FontFace=#FontFace#"
         dynamicOutput[#dynamicOutput + 1] = "FontSize=#TaskFontSize#"
         dynamicOutput[#dynamicOutput + 1] = "Group=TextGroup"
@@ -130,8 +126,8 @@ function Update()
         dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
         dynamicOutput[#dynamicOutput + 1] = "W=(#Width# - [MeterTaskIcon"..i..":W] - #SidePadding# * 2)"
         dynamicOutput[#dynamicOutput + 1] = "Padding=#PaddingSize#"
-        dynamicOutput[#dynamicOutput + 1] = "MouseOverAction=[!SetOption MeterRepeatingTask"..i.."Hover Highlight \"FillColor #LightHighlight#,#NoGradientTransparency#\"][!UpdateMeter MeterRepeatingTask"..i.."Hover][!ShowMeterGroup MoveTaskGroup"..i.."][!UpdateMeterGroup MoveTaskGroup"..i.."][!SetOption MeterMoveUpTask"..i.." Text \"#fa-chevron-up#\"][!UpdateMeter MeterMoveUpTask"..i.."][!Redraw]"
-        dynamicOutput[#dynamicOutput + 1] = "MouseLeaveAction=[!SetOption MeterRepeatingTask"..i.."Hover Highlight \"FillColor 0,0,0,0\"][!UpdateMeter MeterRepeatingTask"..i.."Hover][!HideMeterGroup MoveTaskGroup"..i.."][!UpdateMeterGroup MoveTaskGroup"..i.."][!SetOption MeterMoveUpTask"..i.." Text \"\"][!UpdateMeter MeterMoveUpTask"..i.."][!Redraw]"
+        dynamicOutput[#dynamicOutput + 1] = "MouseOverAction=[!SetOption MeterRepeatingTask"..i.."Hover Highlight \"FillColor #LightHighlight#,#NoGradientTransparency#\"][!UpdateMeter MeterRepeatingTask"..i.."Hover][!ShowMeterGroup HoverGroup"..i.."][!UpdateMeterGroup HoverGroup"..i.."][!SetOption MeterMoveUpTask"..i.." Text \"#fa-chevron-up#\"][!UpdateMeter MeterMoveUpTask"..i.."][!SetOptionGroup NotRecurringGroup"..i.." Text \"#fa-repeat#\"][!UpdateMeterGroup NotRecurringGroup"..i.."][!Redraw]"
+        dynamicOutput[#dynamicOutput + 1] = "MouseLeaveAction=[!SetOption MeterRepeatingTask"..i.."Hover Highlight \"FillColor 0,0,0,0\"][!UpdateMeter MeterRepeatingTask"..i.."Hover][!HideMeterGroup HoverGroup"..i.."][!UpdateMeterGroup HoverGroup"..i.."][!SetOption MeterMoveUpTask"..i.." Text \"\"][!UpdateMeter MeterMoveUpTask"..i.."][!SetOptionGroup NotRecurringGroup"..i.." Text \"\"][!UpdateMeterGroup NotRecurringGroup"..i.."][!Redraw]"
 
         dynamicOutput[#dynamicOutput + 1] = "[MeasureRenameTextBox"..i.."]"
         dynamicOutput[#dynamicOutput + 1] = "Measure=Plugin"
@@ -149,14 +145,57 @@ function Update()
         dynamicOutput[#dynamicOutput + 1] = "Command2=[!CommandMeasure \"MeasureDynamicTasks\" \"RenameTask("..i..", '[MeasureRenameTextBox"..i.."]')\"][!CommandMeasure \"MeasureDynamicTasks\" \"Update()\"][!Refresh]"
         dynamicOutput[#dynamicOutput + 1] = "Substitute=\"'\":\"\\'\""
 
+        dynamicOutput[#dynamicOutput + 1] = "[MeterToggleRecurring"..i.."Background]"
+        dynamicOutput[#dynamicOutput + 1] = "Meter=Shape"
+        dynamicOutput[#dynamicOutput + 1] = "Shape=Rectangle 0,0,([MeterTitleBackground:H] / 2),([MeterRepeatingTask"..i..":H]),#CornerRadius# | Fill LinearGradient Gradient | StrokeWidth 0"
+        dynamicOutput[#dynamicOutput + 1] = "Gradient=0 | 0,0,0,0 ; 0.0"
+        dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
+        dynamicOutput[#dynamicOutput + 1] = "Group=BackgroundGroup | HoverGroup"..i
+        dynamicOutput[#dynamicOutput + 1] = "X=(-[MeterTitleBackground:H] / 2)R"
+        dynamicOutput[#dynamicOutput + 1] = "Y=[MeterRepeatingTask"..i..":Y]"
+        dynamicOutput[#dynamicOutput + 1] = "Hidden=1"
+        dynamicOutput[#dynamicOutput + 1] = "MouseOverAction=[!SetOption MeterToggleRecurring"..i.."Hover Highlight \"FillColor #LightHighlight#,#NoGradientTransparency#\"][!UpdateMeter MeterToggleRecurring"..i.."Hover][!Redraw]"
+        dynamicOutput[#dynamicOutput + 1] = "MouseLeaveAction=[!SetOption MeterToggleRecurring"..i.."Hover Highlight \"FillColor 0,0,0,0\"][!UpdateMeter MeterToggleRecurring"..i.."Hover][!Redraw]"
+        if string.find(recurring, "|" .. i .. "|") ~= nil then
+            dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure \"MeasureDynamicTasks\" \"RenameTask("..i..", '"..tasks[i].."')][!CommandMeasure \"MeasureDynamicTasks\" \"Update()\"][!Refresh]"
+        else
+            dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure \"MeasureDynamicTasks\" \"RenameTask("..i..", '"..tasks[i].."|R')][!CommandMeasure \"MeasureDynamicTasks\" \"Update()\"][!Refresh]"
+        end
+
+        dynamicOutput[#dynamicOutput + 1] = "[MeterToggleRecurring"..i.."Hover]"
+        dynamicOutput[#dynamicOutput + 1] = "Meter=Shape"
+        dynamicOutput[#dynamicOutput + 1] = "Shape=Rectangle 0,0,([MeterTitleBackground:H] / 2),([MeterRepeatingTask"..i..":H]),#CornerRadius# | Extend Highlight | StrokeWidth 0"
+        dynamicOutput[#dynamicOutput + 1] = "Highlight=FillColor 0,0,0,0"
+        dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
+        dynamicOutput[#dynamicOutput + 1] = "X=r"
+        dynamicOutput[#dynamicOutput + 1] = "Y=[MeterRepeatingTask"..i..":Y]"
+
+        dynamicOutput[#dynamicOutput + 1] = "[MeterToggleRecurring"..i.."]"
+        dynamicOutput[#dynamicOutput + 1] = "Meter=String"
+        dynamicOutput[#dynamicOutput + 1] = "FontFace=#IconFace#"
+        dynamicOutput[#dynamicOutput + 1] = "FontSize=#TaskFontSize#"
+        dynamicOutput[#dynamicOutput + 1] = "AntiAlias=1"
+        dynamicOutput[#dynamicOutput + 1] = "X=([MeterTitleBackground:H] / 4)r"
+        dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
+        dynamicOutput[#dynamicOutput + 1] = "Y=([MeterRepeatingTask"..i..":Y] + ([MeterRepeatingTask"..i..":H] / 2))"
+        if string.find(recurring, "|" .. i .. "|") ~= nil then
+            dynamicOutput[#dynamicOutput + 1] = "Text=#fa-repeat#"
+            dynamicOutput[#dynamicOutput + 1] = "FontColor=#LightHighlight#"
+        else
+            dynamicOutput[#dynamicOutput + 1] = "Group=TextGroup | NotRecurringGroup"..i
+        end
+        dynamicOutput[#dynamicOutput + 1] = "StringAlign=CenterCenter"
+        dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] / 2)"
+        dynamicOutput[#dynamicOutput + 1] = "W=([MeterTitleBackground:H] / 2)"
+
         if (i >= 2) then
             dynamicOutput[#dynamicOutput + 1] = "[MeterMoveUpTask"..i.."Background]"
             dynamicOutput[#dynamicOutput + 1] = "Meter=Shape"
             dynamicOutput[#dynamicOutput + 1] = "Shape=Rectangle 0,0,([MeterTitleBackground:H] / 2),([MeterRepeatingTask"..i..":H]),#CornerRadius# | Fill LinearGradient Gradient | StrokeWidth 0"
             dynamicOutput[#dynamicOutput + 1] = "Gradient=0 | 0,0,0,0 ; 0.0"
             dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
-            dynamicOutput[#dynamicOutput + 1] = "Group=BackgroundGroup | MoveTaskGroup"..i
-            dynamicOutput[#dynamicOutput + 1] = "X=(-[MeterTitleBackground:H] / 2)R"
+            dynamicOutput[#dynamicOutput + 1] = "Group=BackgroundGroup | HoverGroup"..i
+            dynamicOutput[#dynamicOutput + 1] = "X=(-[MeterTitleBackground:H] / 4 - [MeterTitleBackground:H] / 2)r"
             dynamicOutput[#dynamicOutput + 1] = "Y=[MeterRepeatingTask"..i..":Y]"
             dynamicOutput[#dynamicOutput + 1] = "Hidden=1"
             dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure \"MeasureDynamicTasks\" \"MoveTask("..i..", -1)\"][!CommandMeasure \"MeasureDynamicTasks\" \"Update()\"][!Refresh]"
