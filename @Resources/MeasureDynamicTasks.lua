@@ -144,7 +144,6 @@ function Update()
         dynamicOutput[#dynamicOutput + 1] = "X=([MeterTaskIcon"..i..":W] + #SidePadding#)"
         dynamicOutput[#dynamicOutput + 1] = "Y=([MeterRepeatingTask"..i..":Y] + #SidePadding#)"
         dynamicOutput[#dynamicOutput + 1] = "W=(#Width# - ([MeterTaskIcon"..i..":W] + #SidePadding# * 2))"
-        -- minus additional padding for the height, if any
         dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] - (#SidePadding# * 2))"
         dynamicOutput[#dynamicOutput + 1] = "Command1=[!SetVariable placeholder $UserInput$"
         dynamicOutput[#dynamicOutput + 1] = "Command2=[!CommandMeasure \"MeasureDynamicTasks\" \"RenameTask("..i..", '[MeasureRenameTextBox"..i.."]')\"][!CommandMeasure \"MeasureDynamicTasks\" \"Update()\"][!Refresh]"
