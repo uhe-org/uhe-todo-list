@@ -1,6 +1,7 @@
 {
     "Lua.diagnostics.globals": [
-        "SELF"
+        "SELF",
+        "SKIN"
     ],
     "Lua.diagnostics.disable": [
         "need-check-nil"
