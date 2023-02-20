@@ -87,7 +87,7 @@ function Update()
         dynamicOutput[#dynamicOutput + 1] = "X=r"
         dynamicOutput[#dynamicOutput + 1] = "Y=r"
         dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] - (#SidePadding# * 2))"
-        dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!SetVariable check"..i.."state (1-#check"..i.."state#)][!CommandMeasure \"MeasureDynamicTasks\" \"CheckLine("..i..")\"][!CommandMeasure \"MeasureDynamicTasks\" \"Update()\"][!Update]"
+        dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!SetVariable check"..i.."state (1-#check"..i.."state#)][!CommandMeasure \"MeasureDynamicTasks\" \"CheckLine("..i..")\"][!Update]"
         dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
         dynamicOutput[#dynamicOutput + 1] = "GradientAngle=180"
         dynamicOutput[#dynamicOutput + 1] = "Padding=#PaddingSize#"
@@ -114,7 +114,7 @@ function Update()
         dynamicOutput[#dynamicOutput + 1] = "X=r"
         dynamicOutput[#dynamicOutput + 1] = "Y=r"
         dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure MeasureRenameTextBox"..i.." \"ExecuteBatch 1-2\"]"
-        dynamicOutput[#dynamicOutput + 1] = "MouseScrollUpAction=[!CommandMeasure \"MeasureDynamicTasks\" \"MoveTask("..i..", -1)\"][!CommandMeasure \"MeasureDynamicTasks\" \"Update()\"][!Refresh]"
+        dynamicOutput[#dynamicOutput + 1] = "MouseScrollUpAction=[!CommandMeasure \"MeasureDynamicTasks\" \"MoveTask("..i..", -1)\"][!Refresh]"
 
         dynamicOutput[#dynamicOutput + 1] = "[MeterRepeatingTask"..i.."]"
         dynamicOutput[#dynamicOutput + 1] = "Meter=String"
@@ -145,7 +145,7 @@ function Update()
         dynamicOutput[#dynamicOutput + 1] = "W=(#Width# - ([MeterTaskIcon"..i..":W] + #SidePadding# * 2))"
         dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask"..i..":H] - (#SidePadding# * 2))"
         dynamicOutput[#dynamicOutput + 1] = "Command1=[!SetVariable placeholder $UserInput$"
-        dynamicOutput[#dynamicOutput + 1] = "Command2=[!CommandMeasure \"MeasureDynamicTasks\" \"RenameTask("..i..", '[MeasureRenameTextBox"..i.."]')\"][!CommandMeasure \"MeasureDynamicTasks\" \"Update()\"][!Refresh]"
+        dynamicOutput[#dynamicOutput + 1] = "Command2=[!CommandMeasure \"MeasureDynamicTasks\" \"RenameTask("..i..", '[MeasureRenameTextBox"..i.."]')\"][!Refresh]"
         dynamicOutput[#dynamicOutput + 1] = "Substitute=\"'\":\"\\'\""
 
         dynamicOutput[#dynamicOutput + 1] = "[MeterToggleRecurring"..i.."Background]"
@@ -160,9 +160,9 @@ function Update()
         dynamicOutput[#dynamicOutput + 1] = "MouseOverAction=[!SetOption MeterToggleRecurring"..i.."Hover Highlight \"FillColor #LightHighlight#,#NoGradientTransparency#\"][!UpdateMeter MeterToggleRecurring"..i.."Hover][!Redraw]"
         dynamicOutput[#dynamicOutput + 1] = "MouseLeaveAction=[!SetOption MeterToggleRecurring"..i.."Hover Highlight \"FillColor 0,0,0,0\"][!UpdateMeter MeterToggleRecurring"..i.."Hover][!Redraw]"
         if string.find(recurring, "|" .. i .. "|") ~= nil then
-            dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure \"MeasureDynamicTasks\" \"RenameTask("..i..", '"..tasks[i].."')][!CommandMeasure \"MeasureDynamicTasks\" \"Update()\"][!Refresh]"
+            dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure \"MeasureDynamicTasks\" \"RenameTask("..i..", '"..tasks[i].."')][!Refresh]"
         else
-            dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure \"MeasureDynamicTasks\" \"RenameTask("..i..", '"..tasks[i].."|R')][!CommandMeasure \"MeasureDynamicTasks\" \"Update()\"][!Refresh]"
+            dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure \"MeasureDynamicTasks\" \"RenameTask("..i..", '"..tasks[i].."|R')][!Refresh]"
         end
 
         dynamicOutput[#dynamicOutput + 1] = "[MeterToggleRecurring"..i.."Hover]"
@@ -201,7 +201,7 @@ function Update()
             dynamicOutput[#dynamicOutput + 1] = "X=(-[MeterTitleBackground:H] / 4 - [MeterTitleBackground:H] / 2)r"
             dynamicOutput[#dynamicOutput + 1] = "Y=[MeterRepeatingTask"..i..":Y]"
             dynamicOutput[#dynamicOutput + 1] = "Hidden=1"
-            dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure \"MeasureDynamicTasks\" \"MoveTask("..i..", -1)\"][!CommandMeasure \"MeasureDynamicTasks\" \"Update()\"][!Refresh]"
+            dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure \"MeasureDynamicTasks\" \"MoveTask("..i..", -1)\"][!Refresh]"
             dynamicOutput[#dynamicOutput + 1] = "MouseOverAction=[!SetOption MeterMoveUpTask"..i.."Hover Highlight \"FillColor #LightHighlight#,#NoGradientTransparency#\"][!UpdateMeter MeterMoveUpTask"..i.."Hover][!Redraw]"
             dynamicOutput[#dynamicOutput + 1] = "MouseLeaveAction=[!SetOption MeterMoveUpTask"..i.."Hover Highlight \"FillColor 0,0,0,0\"][!UpdateMeter MeterMoveUpTask"..i.."Hover][!Redraw]"
 
@@ -311,6 +311,8 @@ function CheckLine(lineNumber)
     hFile:write(restOfFile)
     hFile:close()
 
+    Update()
+
     return true
 
 end
@@ -349,6 +351,8 @@ function ClearTasks()
 
     hFile:close()
 
+    Update()
+
     return true
 
 end
@@ -366,6 +370,8 @@ function AddTask(newline)
     hFile:write(wholeFile)
     hFile:write(newline, "\n")
     hFile:close()
+
+    Update()
 
     return true
 
@@ -485,6 +491,8 @@ function RenameTask(lineNumber, newTaskName)
 
     hFile:write(restOfFile)
     hFile:close()
+
+    Update()
 end
 
 function MoveTask(lineNumber, direction)
@@ -534,4 +542,6 @@ function MoveTask(lineNumber, direction)
 
     hFile:write(restOfFile)
     hFile:close()
+
+    Update()
 end
