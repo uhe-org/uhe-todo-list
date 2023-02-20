@@ -253,7 +253,7 @@ function Update()
     File:write(table.concat(dynamicOutput, '\n'))
     File:close()
 
-    CreateDynamicLogItems()
+    UpdateDynamicLogItems()
 
     return true
 
@@ -397,38 +397,11 @@ function LogTask(task)
     logFile:write(': ')
     logFile:write(task, "\n")
     logFile:close()
-    SKIN:Bang('!SetOption', 'MeterLogs', 'Text', GetDynamicLogItems())
+    UpdateDynamicLogItems()
 end
 
-function CreateDynamicLogItems()
-    local dynamicOutput = {}
-
-    dynamicOutput[#dynamicOutput + 1] = "[MeterLogs]"
-    dynamicOutput[#dynamicOutput + 1] = "Meter=String"
-    dynamicOutput[#dynamicOutput + 1] = "Text=" .. GetDynamicLogItems()
-    dynamicOutput[#dynamicOutput + 1] = "MeterStyle=styleLogItem"
-    dynamicOutput[#dynamicOutput + 1] = "AntiAlias=1"
-    dynamicOutput[#dynamicOutput + 1] = "FontFace=#FontFace#"
-    dynamicOutput[#dynamicOutput + 1] = "Hidden=1"
-    dynamicOutput[#dynamicOutput + 1] = "Group=TextGroup | LogGroup"
-    dynamicOutput[#dynamicOutput + 1] = "Container=meterLogContainer"
-    dynamicOutput[#dynamicOutput + 1] = "Y=#CurrentY#"
-    dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
-    dynamicOutput[#dynamicOutput + 1] = "ClipString=2"
-    dynamicOutput[#dynamicOutput + 1] = "Padding=#PaddingSize#"
-    dynamicOutput[#dynamicOutput + 1] = "W=([meterLogContainer:W] - (#SidePadding# * 2))"
-
-    -- create dynamic log items
-    local File = io.open(SDynamicLogItems, 'w')
-
-    -- error handling
-    if not File then
-        print('Update: unable to open file at ' .. SDynamicLogItems)
-        return
-    end
-
-    File:write(table.concat(dynamicOutput, '\n'))
-    File:close()
+function UpdateDynamicLogItems()
+    SKIN:Bang('!SetOption', 'MeterLogs', 'Text', GetDynamicLogItems())
 end
 
 function GetDynamicLogItems()
