@@ -9,6 +9,7 @@ function Update()
     local dynamicOutput = {}
     local tasks = {}
     local checked = ""
+    local current = ""
     local recurring = ""
 
     local tasksFile = io.open(STaskListFile, "r")
@@ -29,6 +30,11 @@ function Update()
             line = string.sub(line, 2, string.len(line))
         end
 
+        if string.sub(line, 1, 1) == "-" then
+            current = current .. "|" .. #tasks + 1
+            line = string.sub(line, 2, string.len(line))
+        end
+
         -- check if the task is recurring
         if string.sub(line, -2, -1) == "|R" then
             recurring = recurring .. "|" .. #tasks + 1
@@ -40,6 +46,9 @@ function Update()
 
     -- add delimeter to end of checked string
     checked = checked .. "|"
+
+    -- add delimeter to end of current string
+    current = current .. "|"
 
     -- add delimeter to end of recurring string
     recurring = recurring .. "|"
@@ -54,12 +63,20 @@ function Update()
             i ..
             " fa-sq][!SetOption MeterRepeatingTask" ..
             i .. " InlineSetting \"\"][!SetOption MeterRepeatingTask" .. i .. " InlineSetting2 \"\"]"
-        dynamicOutput[#dynamicOutput + 1] = "IfNotMatchAction=[!SetVariable check" ..
+        dynamicOutput[#dynamicOutput + 1] = "IfMatch2=1"
+        dynamicOutput[#dynamicOutput + 1] = "IfMatchAction2=[!SetVariable check" ..
             i ..
             " fa-check-sq][!SetOption MeterRepeatingTask" ..
             i ..
             " InlineSetting Strikethrough][!SetOption MeterRepeatingTask" ..
             i .. " InlineSetting2 \"Color | 255,255,255,50\"]"
+        dynamicOutput[#dynamicOutput + 1] = "IfMatch3=-1"
+        dynamicOutput[#dynamicOutput + 1] = "IfMatchAction3=[!SetVariable check" ..
+            i ..
+            " fa-square-minus][!SetOption MeterRepeatingTask" ..
+            i ..
+            " InlineSetting Underline][!SetOption MeterRepeatingTask" ..
+            i .. " InlineSetting2 \"Color | #LightHighlight#\"]"
         dynamicOutput[#dynamicOutput + 1] = "IfMatchMode=1"
         dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
     end
@@ -91,9 +108,9 @@ function Update()
         dynamicOutput[#dynamicOutput + 1] = "X=r"
         dynamicOutput[#dynamicOutput + 1] = "Y=r"
         dynamicOutput[#dynamicOutput + 1] = "H=([MeterRepeatingTask" .. i .. ":H] - (#SidePadding# * 2))"
-        dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!SetVariable check" ..
-            i ..
-            "state (1-#check" .. i .. "state#)][!CommandMeasure \"MeasureDynamicTasks\" \"CheckLine(" ..
+        dynamicOutput[#dynamicOutput + 1] = "LeftMouseUpAction=[!CommandMeasure \"MeasureDynamicTasks\" \"CheckLine(" ..
+            i .. ")\"][!Update]"
+        dynamicOutput[#dynamicOutput + 1] = "RightMouseUpAction=[!CommandMeasure \"MeasureDynamicTasks\" \"MarkCurrent(" ..
             i .. ")\"][!Update]"
         dynamicOutput[#dynamicOutput + 1] = "DynamicVariables=1"
         dynamicOutput[#dynamicOutput + 1] = "GradientAngle=180"
@@ -300,8 +317,13 @@ function Update()
             dynamicOutput[#dynamicOutput + 1] = "check" .. i .. "state=1"
             dynamicOutput[#dynamicOutput + 1] = "check" .. i .. "=fa-check-sq"
         else
-            dynamicOutput[#dynamicOutput + 1] = "check" .. i .. "state=0"
-            dynamicOutput[#dynamicOutput + 1] = "check" .. i .. "=fa-sq"
+            if string.find(current, "|" .. i .. "|") ~= nil then
+                dynamicOutput[#dynamicOutput + 1] = "check" .. i .. "state=-1"
+                dynamicOutput[#dynamicOutput + 1] = "check" .. i .. "=fa-square-minus"
+            else
+                dynamicOutput[#dynamicOutput + 1] = "check" .. i .. "state=0"
+                dynamicOutput[#dynamicOutput + 1] = "check" .. i .. "=fa-sq"
+            end
         end
     end
 
@@ -327,22 +349,83 @@ function CheckLine(lineNumber)
     local lines = {}
     local restOfFile
     local lineCt = 1
+    local startIndex = 1
 
     -- read through task list
     for line in hFile:lines() do
         -- find the line to be altered
         if (lineCt == lineNumber) then
+            if (string.sub(line, 1, 1) == "-") then
+                startIndex = 2
+            end
+
             -- toggle completion status of line
             if string.sub(line, 1, 1) ~= "+" then
-                lines[#lines + 1] = "+" .. line
+                lines[#lines + 1] = "+" .. string.sub(line, startIndex, string.len(line))
+                SKIN:Bang('!SetVariable', 'check' .. lineCt .. 'state', 1)
 
                 if (string.sub(line, -2, -1) == "|R") then
-                    LogTask(string.sub(line, 1, string.len(line) - 2))
+                    LogTask(string.sub(line, startIndex, string.len(line) - 2))
                 else
-                    LogTask(string.sub(line, 1, string.len(line)))
+                    LogTask(string.sub(line, startIndex, string.len(line)))
                 end
             else
                 lines[#lines + 1] = string.sub(line, 2, string.len(line))
+                SKIN:Bang('!SetVariable', 'check' .. lineCt .. 'state', 0)
+            end
+
+            -- read the rest of the file
+            restOfFile = hFile:read("*a")
+            -- and break from loop
+            break
+        else
+            -- write the lines of the file before altered line
+            lineCt = lineCt + 1
+            lines[#lines + 1] = line
+        end
+    end
+
+    -- close task list for reading
+    hFile:close()
+
+    -- open task list for writing
+    hFile = io.open(STaskListFile, "w")
+
+    -- write lines of file from start to altered line
+    for i, line in ipairs(lines) do
+        hFile:write(line, "\n")
+    end
+
+    hFile:write(restOfFile)
+    hFile:close()
+
+    Update()
+
+    return true
+end
+
+function MarkCurrent(lineNumber)
+    local hFile = io.open(STaskListFile, "r")
+    local lines = {}
+    local restOfFile
+    local lineCt = 1
+    local startIndex = 1
+
+    -- read through task list
+    for line in hFile:lines() do
+        -- find the line to be altered
+        if (lineCt == lineNumber) then
+            if string.sub(line, 1, 1) == "+" then
+                startIndex = 2
+            end
+
+            -- toggle completion status of line
+            if string.sub(line, 1, 1) ~= "-" then
+                lines[#lines + 1] = "-" .. string.sub(line, startIndex, string.len(line))
+                SKIN:Bang('!SetVariable', 'check' .. lineCt .. 'state', -1)
+            else
+                lines[#lines + 1] = string.sub(line, 2, string.len(line))
+                SKIN:Bang('!SetVariable', 'check' .. lineCt .. 'state', 0)
             end
 
             -- read the rest of the file
