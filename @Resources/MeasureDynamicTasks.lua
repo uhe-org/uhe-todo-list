@@ -419,7 +419,7 @@ function MarkCurrent(lineNumber)
                 startIndex = 2
             end
 
-            -- toggle completion status of line
+            -- toggle current status of line
             if string.sub(line, 1, 1) ~= "-" then
                 lines[#lines + 1] = "-" .. string.sub(line, startIndex, string.len(line))
                 SKIN:Bang('!SetVariable', 'check' .. lineCt .. 'state', -1)
