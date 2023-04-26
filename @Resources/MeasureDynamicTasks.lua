@@ -400,6 +400,7 @@ function CheckLine(lineNumber)
     hFile:close()
 
     Update()
+    UpdateGist()
 
     return true
 end
@@ -454,6 +455,7 @@ function MarkCurrent(lineNumber)
     hFile:close()
 
     Update()
+    UpdateGist()
 
     return true
 end
@@ -490,6 +492,7 @@ function ClearTasks()
     hFile:close()
 
     Update()
+    UpdateGist()
 
     return true
 end
@@ -507,6 +510,7 @@ function AddTask(newline)
     hFile:close()
 
     Update()
+    UpdateGist()
 
     return true
 end
@@ -598,6 +602,7 @@ function RenameTask(lineNumber, newTaskName)
     hFile:close()
 
     Update()
+    UpdateGist()
 end
 
 function MoveTask(lineNumber, direction)
@@ -647,4 +652,22 @@ function MoveTask(lineNumber, direction)
     hFile:close()
 
     Update()
+    UpdateGist()
+end
+
+function UpdateTaskContentVariable()
+    local taskContent = ""
+
+    for line in io.lines(STaskListFile) do
+        taskContent = taskContent..line.."\\n"
+    end
+
+    SKIN:Bang('!SetVariable', 'taskContent', taskContent)
+end
+
+function UpdateGist()
+    UpdateTaskContentVariable()
+    SKIN:Bang('!SetOption', 'meterSyncTasks', 'FontColor', '255,255,0')
+    SKIN:Bang('!UpdateMeasure', 'measureUpdateGist')
+    SKIN:Bang('!CommandMeasure', 'measureUpdateGist', 'Run')
 end
