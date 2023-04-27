@@ -659,7 +659,7 @@ function UpdateTaskContentVariable()
     local taskContent = ""
 
     for line in io.lines(STaskListFile) do
-        taskContent = taskContent..line.."\\n"
+        taskContent = taskContent .. line .. "\\n"
     end
 
     SKIN:Bang('!SetVariable', 'taskContent', taskContent)
