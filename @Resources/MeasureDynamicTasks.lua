@@ -88,7 +88,7 @@ AntiAlias=1
 X=r
 Y=r
 H=([MeterRepeatingTaskPosition:H] - (#SidePadding# * 2))
-LeftMouseUpAction=[!CommandMeasure "MeasureDynamicTasks" "CheckLine(Position)"][!Update]
+LeftMouseUpAction=#PlayButtonClick#[!CommandMeasure "MeasureDynamicTasks" "CheckLine(Position)"][!Update]
 RightMouseUpAction=[!CommandMeasure "MeasureDynamicTasks" "MarkCurrent(Position)"][!Update]
 DynamicVariables=1
 GradientAngle=180
@@ -115,7 +115,7 @@ Highlight=FillColor 0,0,0,0
 DynamicVariables=1
 X=r
 Y=r
-LeftMouseUpAction=[!CommandMeasure MeasureRenameTextBoxPosition "ExecuteBatch 1-2"]
+LeftMouseUpAction=#PlayButtonClick#[!CommandMeasure MeasureRenameTextBoxPosition "ExecuteBatch 1-2"]
 MouseScrollUpAction=[!CommandMeasure "MeasureDynamicTasks" "MoveTask(Position, -1)"][!Refresh]
 
 [MeterRepeatingTaskPosition]
@@ -163,7 +163,7 @@ Y=[MeterRepeatingTaskPosition:Y]
 Hidden=1
 MouseOverAction=[!SetOption MeterToggleRecurringPositionHover Highlight "FillColor #LightHighlight#,#NoGradientTransparency#"][!UpdateMeter MeterToggleRecurringPositionHover][!Redraw]
 MouseLeaveAction=[!SetOption MeterToggleRecurringPositionHover Highlight "FillColor 0,0,0,0"][!UpdateMeter MeterToggleRecurringPositionHover][!Redraw]
-LeftMouseUpAction=[!CommandMeasure "MeasureDynamicTasks" "RenameTask(Position, ']=] ..
+LeftMouseUpAction=#PlayButtonClick#[!CommandMeasure "MeasureDynamicTasks" "RenameTask(Position, ']=] ..
             tasks[i] .. (string.find(recurring, "|" .. i .. "|") ~= nil and "" or "|R") .. [=[')][!Refresh]
 
 [MeterToggleRecurringPositionHover]
@@ -205,7 +205,7 @@ Group=BackgroundGroup | HoverGroupPosition
 X=(-[MeterTitleBackground:H] / 4 - [MeterTitleBackground:H] / 2)r
 Y=[MeterRepeatingTaskPosition:Y]
 Hidden=1
-LeftMouseUpAction=[!CommandMeasure "MeasureDynamicTasks" "MoveTask(Position, -1)"][!Refresh]
+LeftMouseUpAction=#PlayButtonClick#[!CommandMeasure "MeasureDynamicTasks" "MoveTask(Position, -1)"][!Refresh]
 MouseOverAction=[!SetOption MeterMoveUpTaskPositionHover Highlight "FillColor #LightHighlight#,#NoGradientTransparency#"][!UpdateMeter MeterMoveUpTaskPositionHover][!Redraw]
 MouseLeaveAction=[!SetOption MeterMoveUpTaskPositionHover Highlight "FillColor 0,0,0,0"][!UpdateMeter MeterMoveUpTaskPositionHover][!Redraw]
 
