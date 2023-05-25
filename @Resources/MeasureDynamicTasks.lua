@@ -74,8 +74,7 @@ Gradient=0 | 0,0,0,0 ; 0.0
 DynamicVariables=1
 Group=BackgroundGroup
 X=0
-Y=]=] .. (i == 1 and "[MeterTitleBackground:H]" or "R") .. [=[
-
+Y=R
 
 [MeterTaskIconPosition]
 Meter=String
