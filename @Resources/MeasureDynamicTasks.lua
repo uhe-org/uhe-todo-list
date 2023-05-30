@@ -115,7 +115,9 @@ DynamicVariables=1
 X=r
 Y=r
 LeftMouseUpAction=#PlayButtonClick#[!CommandMeasure MeasureRenameTextBoxPosition "ExecuteBatch 1-2"]
+]=] .. (i >= 2 and [=[
 MouseScrollUpAction=[!CommandMeasure "MeasureDynamicTasks" "MoveTask(Position, -1)"][!Refresh]
+]=] or "") .. [=[
 
 [MeterRepeatingTaskPosition]
 Meter=String
