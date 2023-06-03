@@ -256,19 +256,21 @@ StringAlign=CenterCenter
         end
     end
 
-    -- create dynamic meter file
-    local File = io.open(SDynamicMeterFile, 'w')
+    local File = io.open(SDynamicMeterFile, "r")
 
-    -- error handling
-    if not File then
-        print('Update: unable to open file at ' .. SDynamicMeterFile)
-        return
+    if (File == nil) then
+        InitialRefresh = true
     end
 
+    File = io.open(SDynamicMeterFile, "w")
     File:write(table.concat(dynamicOutput, '\n'))
     File:close()
 
     UpdateDynamicLogItems()
+
+    if (InitialRefresh) then
+        SKIN:Bang('!Refresh')
+    end
 
     return true
 end
