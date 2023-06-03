@@ -1,4 +1,4 @@
-# uhe ToDo List
+# uhe To-Do List
 
 **This branch needs https://github.com/Joehuu/uhe in the same `Rainmeter/Skins` folder to work correctly.**
 
