@@ -155,7 +155,7 @@ W=(#Width# - ([MeterTaskIconPosition:W] + #SidePadding# * 2))
 H=([MeterRepeatingTaskPosition:H] - (#SidePadding# * 2))
 Command1=[!SetVariable placeholder $UserInput$
 Command2=[!CommandMeasure "MeasureDynamicTasks" "RenameTask(Position, '[MeasureRenameTextBoxPosition]')"][!Refresh]
-Substitute="'":"\\'"
+Substitute="'":"\'"
 
 [MeterToggleRecurringPositionBackground]
 Meter=Shape
