@@ -53,6 +53,10 @@ function Update()
     -- add delimeter to end of recurring string
     recurring = recurring .. "|"
 
+    if #tasks > 0 then
+        SKIN:Bang('!HideMeter', 'meterPlaceholder')
+    end
+
     for i = 1, #tasks, 1 do
         dynamicOutput[#dynamicOutput + 1] = string.gsub([=[
 [MeasureTaskIconPosition]
