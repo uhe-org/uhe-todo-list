@@ -2,7 +2,6 @@ function Initialize()
     SDynamicMeterFile = SELF:GetOption('DynamicMeterFile')
     STaskListFile = SELF:GetOption('TaskListFile')
     SLogFile = SELF:GetOption('LogFile')
-    SDynamicLogItems = SELF:GetOption('DynamicLogItems')
 end
 
 function Update()
@@ -270,7 +269,7 @@ StringAlign=CenterCenter
     File:write(table.concat(dynamicOutput, '\n'))
     File:close()
 
-    UpdateDynamicLogItems()
+    UpdateLogItems()
 
     if (InitialRefresh) then
         SKIN:Bang('!Refresh')
@@ -470,14 +469,14 @@ function LogTask(task)
     logFile:write(': ')
     logFile:write(task, "\n")
     logFile:close()
-    UpdateDynamicLogItems()
+    UpdateLogItems()
 end
 
-function UpdateDynamicLogItems()
-    SKIN:Bang('!SetOption', 'MeterLogs', 'Text', GetDynamicLogItems())
+function UpdateLogItems()
+    SKIN:Bang('!SetOption', 'MeterLogs', 'Text', GetLogItems())
 end
 
-function GetDynamicLogItems()
+function GetLogItems()
     local logFile = io.open(SLogFile, "r")
     local logs = {}
     local logsText = ""
