@@ -118,9 +118,8 @@ DynamicVariables=1
 X=r
 Y=r
 LeftMouseUpAction=#PlayButtonClick#[!CommandMeasure MeasureRenameTextBoxPosition "ExecuteBatch 1-2"]
-]=] .. (i >= 2 and [=[
 MouseScrollUpAction=[!CommandMeasure "MeasureDynamicTasks" "MoveTask(Position, -1)"][!Refresh]
-]=] or "") .. [=[
+MouseScrollDownAction=[!CommandMeasure "MeasureDynamicTasks" "MoveTask(Position, 1)"][!Refresh]
 
 [MeterRepeatingTaskPosition]
 Meter=String
@@ -136,12 +135,8 @@ Y=r
 DynamicVariables=1
 W=(#Width# - [MeterTaskIconPosition:W] - #SidePadding# * 2)
 Padding=#PaddingSize#
-MouseOverAction=[!SetOption MeterRepeatingTaskPositionHover Highlight "FillColor #LightHighlight#,#NoGradientTransparency#"][!UpdateMeter MeterRepeatingTaskPositionHover][!ShowMeterGroup HoverGroupPosition][!UpdateMeterGroup HoverGroupPosition]]=] ..
-            (i >= 2 and [=[[!SetOption MeterMoveUpTaskPosition Text "#fa-chevron-up#"][!UpdateMeter MeterMoveUpTaskPosition]]=] or "") ..
-            [=[[!SetOptionGroup NotRecurringGroupPosition Text "#fa-repeat#"][!UpdateMeterGroup NotRecurringGroupPosition][!Redraw]
-MouseLeaveAction=[!SetOption MeterRepeatingTaskPositionHover Highlight "FillColor 0,0,0,0"][!UpdateMeter MeterRepeatingTaskPositionHover][!HideMeterGroup HoverGroupPosition][!UpdateMeterGroup HoverGroupPosition]]=] ..
-            (i >= 2 and [=[[!SetOption MeterMoveUpTaskPosition Text ""][!UpdateMeter MeterMoveUpTaskPosition]]=] or "") ..
-            [=[[!SetOptionGroup NotRecurringGroupPosition Text ""][!UpdateMeterGroup NotRecurringGroupPosition][!Redraw]
+MouseOverAction=[!SetOption MeterRepeatingTaskPositionHover Highlight "FillColor #LightHighlight#,#NoGradientTransparency#"][!UpdateMeter MeterRepeatingTaskPositionHover][!ShowMeterGroup HoverGroupPosition][!UpdateMeterGroup HoverGroupPosition][!SetOption MeterMoveUpTaskPosition Text "#fa-chevron-up#"][!UpdateMeter MeterMoveUpTaskPosition][!SetOptionGroup NotRecurringGroupPosition Text "#fa-repeat#"][!UpdateMeterGroup NotRecurringGroupPosition][!Redraw]
+MouseLeaveAction=[!SetOption MeterRepeatingTaskPositionHover Highlight "FillColor 0,0,0,0"][!UpdateMeter MeterRepeatingTaskPositionHover][!HideMeterGroup HoverGroupPosition][!UpdateMeterGroup HoverGroupPosition][!SetOption MeterMoveUpTaskPosition Text ""][!UpdateMeter MeterMoveUpTaskPosition][!SetOptionGroup NotRecurringGroupPosition Text ""][!UpdateMeterGroup NotRecurringGroupPosition][!Redraw]
 
 [MeasureRenameTextBoxPosition]
 Measure=Plugin
@@ -200,9 +195,7 @@ Group=TextGroup | NotRecurringGroupPosition]=]) .. [=[
 
 StringAlign=CenterCenter
 H=([MeterRepeatingTaskPosition:H] / 2)
-W=([MeterTitleBackground:H] / 2)]=]
-            .. (i >= 2 and [=[
-
+W=([MeterTitleBackground:H] / 2)
 
 [MeterMoveUpTaskPositionBackground]
 Meter=Shape
@@ -237,9 +230,7 @@ Y=([MeterRepeatingTaskPosition:Y] + ([MeterRepeatingTaskPosition:H] / 2))
 H=([MeterRepeatingTaskPosition:H] / 2)
 W=([MeterTitleBackground:H] / 2)
 StringAlign=CenterCenter
-]=] or [=[
-
-]=]), "Position", i)
+]=], "Position", i)
     end
 
     dynamicOutput[#dynamicOutput + 1] = "[Variables]"
@@ -542,34 +533,24 @@ end
 function MoveTask(lineNumber, direction)
     local hFile = io.open(STaskListFile, "r")
     local lines = {}
-    local restOfFile
-    local lineCt = 1
-    local nearLine
 
     -- read through task list
     for line in hFile:lines() do
-        -- find the lines to be swapped
-        if (lineCt == lineNumber) then
-            -- swap task
-            if (direction == -1) then
-                nearLine = lines[#lines]
-                lines[#lines + 1] = line
-                lines[#lines - 1] = lines[#lines]
-                lines[#lines] = nearLine
-
-                -- todo: add other direction support
-            end
-
-            -- read the rest of the file
-            restOfFile = hFile:read("*a")
-            -- and break from loop
-            break
-        else
-            -- write the lines of the file before altered line
-            lineCt = lineCt + 1
-            lines[#lines + 1] = line
-        end
+        lines[#lines + 1] = line
     end
+
+    local swappedLine = lines[lineNumber]
+    local targetedIndex = lineNumber + direction
+
+    if (targetedIndex == 0) then
+        targetedIndex = #lines
+    elseif (targetedIndex > #lines) then
+        targetedIndex = 1
+    end
+
+    -- swap task
+    lines[lineNumber] = lines[targetedIndex]
+    lines[targetedIndex] = swappedLine
 
     -- close task list for reading
     hFile:close()
@@ -582,7 +563,6 @@ function MoveTask(lineNumber, direction)
         hFile:write(line, "\n")
     end
 
-    hFile:write(restOfFile)
     hFile:close()
 
     Update()
