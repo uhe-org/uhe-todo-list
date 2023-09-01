@@ -431,11 +431,16 @@ function AddTask(newline)
     -- write task list back to itself and add new line
     hFile = io.open(STaskListFile, "w")
     hFile:write(wholeFile)
-    hFile:write(newline, "\n")
-    hFile:close()
 
-    Update()
-    UpdateGist()
+    if (newline ~= "") then
+        hFile:write(newline, "\n")
+        hFile:close()
+        Update()
+        UpdateGist()
+        SKIN:Bang('!Refresh')
+    else
+        hFile:close()
+    end
 
     return true
 end
