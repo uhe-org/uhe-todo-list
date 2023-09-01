@@ -272,42 +272,33 @@ end
 function CheckLine(lineNumber)
     local hFile = io.open(STaskListFile, "r")
     local lines = {}
-    local restOfFile
-    local lineCt = 1
-    local startIndex = 1
 
     -- read through task list
     for line in hFile:lines() do
-        -- find the line to be altered
-        if (lineCt == lineNumber) then
-            if (string.sub(line, 1, 1) == "-") then
-                startIndex = 2
-            end
+        lines[#lines + 1] = line
+    end
 
-            -- toggle completion status of line
-            if string.sub(line, 1, 1) ~= "+" then
-                lines[#lines + 1] = "+" .. string.sub(line, startIndex, string.len(line))
-                SKIN:Bang('!SetVariable', 'check' .. lineCt .. 'state', 1)
+    local modifiedLine = lines[lineNumber]
 
-                if (string.sub(line, -2, -1) == "|R") then
-                    LogTask(string.sub(line, startIndex, string.len(line) - 2))
-                else
-                    LogTask(string.sub(line, startIndex, string.len(line)))
-                end
-            else
-                lines[#lines + 1] = string.sub(line, 2, string.len(line))
-                SKIN:Bang('!SetVariable', 'check' .. lineCt .. 'state', 0)
-            end
+    -- toggle completion status of selected task
+    if string.sub(modifiedLine, 1, 1) ~= "+" then
+        local startIndex = 1
 
-            -- read the rest of the file
-            restOfFile = hFile:read("*a")
-            -- and break from loop
-            break
-        else
-            -- write the lines of the file before altered line
-            lineCt = lineCt + 1
-            lines[#lines + 1] = line
+        if (string.sub(modifiedLine, 1, 1) == "-") then
+            startIndex = 2
         end
+
+        lines[lineNumber] = "+" .. string.sub(modifiedLine, startIndex, string.len(modifiedLine))
+        SKIN:Bang('!SetVariable', 'check' .. lineNumber .. 'state', 1)
+
+        if (string.sub(modifiedLine, -2, -1) == "|R") then
+            LogTask(string.sub(modifiedLine, startIndex, string.len(modifiedLine) - 2))
+        else
+            LogTask(string.sub(modifiedLine, startIndex, string.len(modifiedLine)))
+        end
+    else
+        lines[lineNumber] = string.sub(modifiedLine, 2, string.len(modifiedLine))
+        SKIN:Bang('!SetVariable', 'check' .. lineNumber .. 'state', 0)
     end
 
     -- close task list for reading
@@ -316,12 +307,11 @@ function CheckLine(lineNumber)
     -- open task list for writing
     hFile = io.open(STaskListFile, "w")
 
-    -- write lines of file from start to altered line
+    -- update lines of file
     for i, line in ipairs(lines) do
         hFile:write(line, "\n")
     end
 
-    hFile:write(restOfFile)
     hFile:close()
 
     Update()
@@ -333,36 +323,27 @@ end
 function MarkCurrent(lineNumber)
     local hFile = io.open(STaskListFile, "r")
     local lines = {}
-    local restOfFile
-    local lineCt = 1
-    local startIndex = 1
 
     -- read through task list
     for line in hFile:lines() do
-        -- find the line to be altered
-        if (lineCt == lineNumber) then
-            if string.sub(line, 1, 1) == "+" then
-                startIndex = 2
-            end
+        lines[#lines + 1] = line
+    end
 
-            -- toggle current status of line
-            if string.sub(line, 1, 1) ~= "-" then
-                lines[#lines + 1] = "-" .. string.sub(line, startIndex, string.len(line))
-                SKIN:Bang('!SetVariable', 'check' .. lineCt .. 'state', -1)
-            else
-                lines[#lines + 1] = string.sub(line, 2, string.len(line))
-                SKIN:Bang('!SetVariable', 'check' .. lineCt .. 'state', 0)
-            end
+    local modifiedLine = lines[lineNumber]
 
-            -- read the rest of the file
-            restOfFile = hFile:read("*a")
-            -- and break from loop
-            break
-        else
-            -- write the lines of the file before altered line
-            lineCt = lineCt + 1
-            lines[#lines + 1] = line
+    -- toggle current status of selected task
+    if string.sub(modifiedLine, 1, 1) ~= "-" then
+        local startIndex = 1
+
+        if string.sub(modifiedLine, 1, 1) == "+" then
+            startIndex = 2
         end
+
+        lines[lineNumber] = "-" .. string.sub(modifiedLine, startIndex, string.len(modifiedLine))
+        SKIN:Bang('!SetVariable', 'check' .. lineNumber .. 'state', -1)
+    else
+        lines[lineNumber] = string.sub(modifiedLine, 2, string.len(modifiedLine))
+        SKIN:Bang('!SetVariable', 'check' .. lineNumber .. 'state', 0)
     end
 
     -- close task list for reading
@@ -371,12 +352,11 @@ function MarkCurrent(lineNumber)
     -- open task list for writing
     hFile = io.open(STaskListFile, "w")
 
-    -- write lines of file from start to altered line
+    -- update lines of file
     for i, line in ipairs(lines) do
         hFile:write(line, "\n")
     end
 
-    hFile:write(restOfFile)
     hFile:close()
 
     Update()
@@ -494,28 +474,13 @@ end
 function RenameTask(lineNumber, newTaskName)
     local hFile = io.open(STaskListFile, "r")
     local lines = {}
-    local restOfFile
-    local lineCt = 1
 
     -- read through task list
     for line in hFile:lines() do
-        -- find the line to be altered
-        if (lineCt == lineNumber) then
-            -- rename task
-            if (newTaskName ~= "") then
-                lines[#lines + 1] = newTaskName
-            end
-
-            -- read the rest of the file
-            restOfFile = hFile:read("*a")
-            -- and break from loop
-            break
-        else
-            -- write the lines of the file before altered line
-            lineCt = lineCt + 1
-            lines[#lines + 1] = line
-        end
+        lines[#lines + 1] = line
     end
+
+    lines[lineNumber] = newTaskName
 
     -- close task list for reading
     hFile:close()
@@ -523,12 +488,13 @@ function RenameTask(lineNumber, newTaskName)
     -- open task list for writing
     hFile = io.open(STaskListFile, "w")
 
-    -- write lines of file from start to altered line
+    -- update lines of file
     for i, line in ipairs(lines) do
-        hFile:write(line, "\n")
+        if (line ~= "") then
+            hFile:write(line, "\n")
+        end
     end
 
-    hFile:write(restOfFile)
     hFile:close()
 
     Update()
@@ -563,7 +529,7 @@ function MoveTask(lineNumber, direction)
     -- open task list for writing
     hFile = io.open(STaskListFile, "w")
 
-    -- write lines of file from start to altered line
+    -- update lines of file
     for i, line in ipairs(lines) do
         hFile:write(line, "\n")
     end
