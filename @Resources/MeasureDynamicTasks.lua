@@ -179,6 +179,7 @@ MouseOverAction=[!SetOption MeterToggleRecurringPositionHover Highlight "FillCol
 MouseLeaveAction=[!SetOption MeterToggleRecurringPositionHover Highlight "FillColor 0,0,0,0"][!UpdateMeter MeterToggleRecurringPositionHover][!Redraw]
 LeftMouseUpAction=#PlayButtonClick#[!CommandMeasure "MeasureDynamicTasks" "RenameTask(Position, ']=] ..
             tasks[i] .. (string.find(recurring, "|" .. i .. "|") ~= nil and "" or "|R") .. [=[')][!Refresh]
+TooltipText=Toggle recurring
 
 [MeterToggleRecurringPositionHover]
 Meter=Shape
@@ -220,6 +221,7 @@ Hidden=1
 LeftMouseUpAction=#PlayButtonClick#[!CommandMeasure "MeasureDynamicTasks" "MoveTask(Position, -1)"][!Refresh]
 MouseOverAction=[!SetOption MeterMoveUpTaskPositionHover Highlight "FillColor #LightHighlight#,#NoGradientTransparency#"][!UpdateMeter MeterMoveUpTaskPositionHover][!Redraw]
 MouseLeaveAction=[!SetOption MeterMoveUpTaskPositionHover Highlight "FillColor 0,0,0,0"][!UpdateMeter MeterMoveUpTaskPositionHover][!Redraw]
+TooltipText=Move up
 
 [MeterMoveUpTaskPositionHover]
 Meter=Shape
