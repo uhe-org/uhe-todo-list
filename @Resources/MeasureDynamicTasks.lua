@@ -50,7 +50,7 @@ function Update()
     end
 
     if titleSet == false then
-        SKIN:Bang('!SetVariable', 'Title', "Click here to set title")
+        SKIN:Bang('!SetVariable', 'Title', "Tasks#ListNumber#")
     end
 
     -- add delimeter to end of checked string
