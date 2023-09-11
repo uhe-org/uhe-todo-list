@@ -10,13 +10,14 @@ function Update()
     local checked = ""
     local current = ""
     local recurring = ""
+    local titleSet = false
 
     local tasksFile = io.open(STaskListFile, "r")
 
     -- create a new tasks file if it doesn't exist
     if (tasksFile == nil) then
         tasksFile = io.open(STaskListFile, "w")
-        tasksFile:write("Recurring task|R\nThing to do today\nThing to do tomorrow")
+        tasksFile:write("# Tasks\nRecurring task|R\nThing to do today\nThing to do tomorrow")
     end
 
     tasksFile:close();
@@ -40,7 +41,17 @@ function Update()
             line = string.sub(line, 1, -3)
         end
 
-        tasks[#tasks + 1] = line
+
+        if string.sub(line, 1, 2) == "# " and titleSet == false then
+            SKIN:Bang('!SetVariable', 'Title', string.sub(line, 3, string.len(line)))
+            titleSet = true
+        else
+            tasks[#tasks + 1] = line
+        end
+    end
+
+    if titleSet == false then
+        SKIN:Bang('!SetVariable', 'Title', "Click here to set title")
     end
 
     -- add delimeter to end of checked string
@@ -269,13 +280,28 @@ StringAlign=CenterCenter
     return true
 end
 
-function CheckLine(lineNumber)
+function GetList()
     local hFile = io.open(STaskListFile, "r")
     local lines = {}
 
-    -- read through task list
     for line in hFile:lines() do
         lines[#lines + 1] = line
+    end
+
+    return lines
+end
+
+function CheckLine(lineNumber)
+    local hFile = io.open(STaskListFile, "r")
+    local lines = {}
+    local taskIndex
+
+    lines = GetList()
+
+    taskIndex = lineNumber
+
+    if (string.sub(lines[1], 1, 2) == "# ") then
+        lineNumber = lineNumber + 1
     end
 
     local modifiedLine = lines[lineNumber]
@@ -289,7 +315,7 @@ function CheckLine(lineNumber)
         end
 
         lines[lineNumber] = "+" .. string.sub(modifiedLine, startIndex, string.len(modifiedLine))
-        SKIN:Bang('!SetVariable', 'check' .. lineNumber .. 'state', 1)
+        SKIN:Bang('!SetVariable', 'check' .. taskIndex .. 'state', 1)
 
         if (string.sub(modifiedLine, -2, -1) == "|R") then
             LogTask(string.sub(modifiedLine, startIndex, string.len(modifiedLine) - 2))
@@ -298,7 +324,7 @@ function CheckLine(lineNumber)
         end
     else
         lines[lineNumber] = string.sub(modifiedLine, 2, string.len(modifiedLine))
-        SKIN:Bang('!SetVariable', 'check' .. lineNumber .. 'state', 0)
+        SKIN:Bang('!SetVariable', 'check' .. taskIndex .. 'state', 0)
     end
 
     -- close task list for reading
@@ -323,10 +349,14 @@ end
 function MarkCurrent(lineNumber)
     local hFile = io.open(STaskListFile, "r")
     local lines = {}
+    local taskIndex
 
-    -- read through task list
-    for line in hFile:lines() do
-        lines[#lines + 1] = line
+    lines = GetList()
+
+    taskIndex = lineNumber
+
+    if (string.sub(lines[1], 1, 2) == "# ") then
+        lineNumber = lineNumber + 1
     end
 
     local modifiedLine = lines[lineNumber]
@@ -340,10 +370,10 @@ function MarkCurrent(lineNumber)
         end
 
         lines[lineNumber] = "-" .. string.sub(modifiedLine, startIndex, string.len(modifiedLine))
-        SKIN:Bang('!SetVariable', 'check' .. lineNumber .. 'state', -1)
+        SKIN:Bang('!SetVariable', 'check' .. taskIndex .. 'state', -1)
     else
         lines[lineNumber] = string.sub(modifiedLine, 2, string.len(modifiedLine))
-        SKIN:Bang('!SetVariable', 'check' .. lineNumber .. 'state', 0)
+        SKIN:Bang('!SetVariable', 'check' .. taskIndex .. 'state', 0)
     end
 
     -- close task list for reading
@@ -368,9 +398,12 @@ end
 function ClearTasks()
     local hFile = io.open(STaskListFile, "r")
     local lines = {}
+    local allLines = {}
+
+    allLines = GetList()
 
     -- read through task list
-    for line in hFile:lines() do
+    for i, line in ipairs(allLines) do
         -- do not delete recurring tasks
         if string.sub(line, -2, -1) == "|R" then
             if string.sub(line, 1, 1) == "+" then
@@ -425,6 +458,49 @@ function AddTask(newline)
     return true
 end
 
+function SetTitle(newTaskName)
+    local hFile = io.open(STaskListFile, "r")
+    local lines = {}
+    local lineNumber = 1
+    local titleSet = false
+
+    lines = GetList()
+
+    if #lines > 0 and (string.sub(lines[1], 1, 2) == "# ") then
+        titleSet = true
+    end
+
+    if titleSet == true then
+        if newTaskName ~= "" then
+            lines[lineNumber] = "# " .. newTaskName
+        else
+            lines[lineNumber] = ""
+        end
+    end
+
+    -- close task list for reading
+    hFile:close()
+
+    -- open task list for writing
+    hFile = io.open(STaskListFile, "w")
+
+    if titleSet == false and newTaskName ~= "" then
+        hFile:write("# " .. newTaskName, "\n")
+    end
+
+    -- update lines of file
+    for i, line in ipairs(lines) do
+        if (line ~= "") then
+            hFile:write(line, "\n")
+        end
+    end
+
+    hFile:close()
+
+    Update()
+    UpdateGist()
+end
+
 function LogTask(task)
     local logFile = io.open(SLogFile, "r")
 
@@ -475,9 +551,10 @@ function RenameTask(lineNumber, newTaskName)
     local hFile = io.open(STaskListFile, "r")
     local lines = {}
 
-    -- read through task list
-    for line in hFile:lines() do
-        lines[#lines + 1] = line
+    lines = GetList()
+
+    if (string.sub(lines[1], 1, 2) == "# ") then
+        lineNumber = lineNumber + 1
     end
 
     lines[lineNumber] = newTaskName
@@ -505,9 +582,10 @@ function MoveTask(lineNumber, direction)
     local hFile = io.open(STaskListFile, "r")
     local lines = {}
 
-    -- read through task list
-    for line in hFile:lines() do
-        lines[#lines + 1] = line
+    lines = GetList()
+
+    if (string.sub(lines[1], 1, 2) == "# ") then
+        lineNumber = lineNumber + 1
     end
 
     local swappedLine = lines[lineNumber]
