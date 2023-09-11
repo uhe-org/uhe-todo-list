@@ -17,7 +17,6 @@ function Update()
     -- create a new tasks file if it doesn't exist
     if (tasksFile == nil) then
         tasksFile = io.open(STaskListFile, "w")
-        tasksFile:write("# Tasks\nRecurring task|R\nThing to do today\nThing to do tomorrow")
     end
 
     tasksFile:close();
