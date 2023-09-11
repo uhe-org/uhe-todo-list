@@ -4,6 +4,8 @@
 
 Simple Rainmeter to-do list skin based on [Pernickety/rainmeter-todo-list](https://github.com/Pernickety/rainmeter-todo-list).
 
+This is in the early stages of development. This can break and you may lose all your data, so use at your own risk.
+
 ## Installing
 
 * Download and place entire `uhe-todo-list` and [`uhe`](https://github.com/Joehuu/uhe) folder in your Rainmeter skins location
