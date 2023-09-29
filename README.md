@@ -10,4 +10,4 @@ This is in the early stages of development. This can break and you may lose all 
 
 | Add Tasks | Complete Tasks | Clear Completed Tasks |
 | --- | --- | --- |
-|![Add Tasks](@Resources/GIFs/addtasks.gif) | ![Complete Tasks](@Resources/GIFs/completetasks.gif) | ![Clear Completed Tasks](@Resources/GIFs/clearcompletetasks.gif) |
+|![Add Tasks](assets/addtasks.gif) | ![Complete Tasks](assets/completetasks.gif) | ![Clear Completed Tasks](assets/clearcompletetasks.gif) |
