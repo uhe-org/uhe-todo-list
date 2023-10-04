@@ -1,6 +1,6 @@
 # uhe To-Do List
 
-**This skin needs the [uhe suite](https://github.com/Joehuu/uhe) in the same `Rainmeter/Skins` folder to work correctly.**
+**This skin needs the [uhe suite](https://github.com/uhe-org/uhe) in the same `Rainmeter/Skins` folder to work correctly.**
 
 Simple Rainmeter to-do list skin based on [Pernickety/rainmeter-todo-list](https://github.com/Pernickety/rainmeter-todo-list).
 
