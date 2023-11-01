@@ -72,11 +72,11 @@ function Update()
 Measure=String
 String=#checkPositionstate#
 IfMatch=0
-IfMatchAction=[!SetVariable checkPosition fa-sq][!SetOption MeterRepeatingTaskPosition InlineSetting ""][!SetOption MeterRepeatingTaskPosition InlineSetting2 ""]
+IfMatchAction=[!SetVariable checkPosition fa-sq][!SetOption MeterRepeatingTaskPosition InlineSetting ""][!SetOption MeterRepeatingTaskPosition InlineSetting2 ""][!SetOption MeterTaskIconPosition InlineSetting ""]
 IfMatch2=1
-IfMatchAction2=[!SetVariable checkPosition fa-check-sq][!SetOption MeterRepeatingTaskPosition InlineSetting Strikethrough][!SetOption MeterRepeatingTaskPosition InlineSetting2 "Color | 255,255,255,50"]
+IfMatchAction2=[!SetVariable checkPosition fa-check-sq][!SetOption MeterRepeatingTaskPosition InlineSetting Strikethrough][!SetOption MeterRepeatingTaskPosition InlineSetting2 "Color | 255,255,255,50"][!SetOption MeterTaskIconPosition InlineSetting "Color | 255,255,255,50"]
 IfMatch3=-1
-IfMatchAction3=[!SetVariable checkPosition fa-square-minus][!SetOption MeterRepeatingTaskPosition InlineSetting Underline][!SetOption MeterRepeatingTaskPosition InlineSetting2 "Color | #LightHighlight#"]
+IfMatchAction3=[!SetVariable checkPosition fa-square-minus][!SetOption MeterRepeatingTaskPosition InlineSetting Underline][!SetOption MeterRepeatingTaskPosition InlineSetting2 "Color | #LightHighlight#"][!SetOption MeterTaskIconPosition InlineSetting "Color | #LightHighlight#"]
 IfMatchMode=1
 DynamicVariables=1
 
