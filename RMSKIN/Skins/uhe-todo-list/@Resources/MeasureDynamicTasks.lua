@@ -635,6 +635,10 @@ function UpdateTaskContentVariable()
 end
 
 function UpdateGist()
+    if (SKIN:GetVariable('Sync') == "0") then
+        return
+    end
+
     UpdateTaskContentVariable()
     SKIN:Bang('!SetOption', 'meterSyncTasks', 'FontColor', '255,255,0')
     SKIN:Bang('!UpdateMeasure', 'measureUpdateGist')
