@@ -128,8 +128,11 @@ DynamicVariables=1
 X=r
 Y=r
 LeftMouseUpAction=#PlayButtonClick#[!CommandMeasure MeasureRenameTextBoxPosition "ExecuteBatch 1-2"]
+]=] .. (i >= 2 and [=[
 MouseScrollUpAction=[!CommandMeasure "MeasureDynamicTasks" "MoveTask(Position, -1)"][!Refresh]
+]=] or "") .. (i == #tasks and "" or [=[
 MouseScrollDownAction=[!CommandMeasure "MeasureDynamicTasks" "MoveTask(Position, 1)"][!Refresh]
+]=]) .. [=[
 
 [MeterRepeatingTaskPosition]
 Meter=String
@@ -145,8 +148,12 @@ Y=r
 DynamicVariables=1
 W=(#Width# - [MeterTaskIconPosition:W] - #SidePadding# * 2)
 Padding=#PaddingSize#
-MouseOverAction=[!SetOption MeterRepeatingTaskPositionHover Highlight "FillColor #LightHighlight#,#NoGradientTransparency#"][!UpdateMeter MeterRepeatingTaskPositionHover][!ShowMeterGroup HoverGroupPosition][!UpdateMeterGroup HoverGroupPosition][!SetOption MeterMoveUpTaskPosition Text "#fa-chevron-up#"][!UpdateMeter MeterMoveUpTaskPosition][!SetOptionGroup NotRecurringGroupPosition Text "#fa-repeat#"][!UpdateMeterGroup NotRecurringGroupPosition][!Redraw]
-MouseLeaveAction=[!SetOption MeterRepeatingTaskPositionHover Highlight "FillColor 0,0,0,0"][!UpdateMeter MeterRepeatingTaskPositionHover][!HideMeterGroup HoverGroupPosition][!UpdateMeterGroup HoverGroupPosition][!SetOption MeterMoveUpTaskPosition Text ""][!UpdateMeter MeterMoveUpTaskPosition][!SetOptionGroup NotRecurringGroupPosition Text ""][!UpdateMeterGroup NotRecurringGroupPosition][!Redraw]
+MouseOverAction=[!SetOption MeterRepeatingTaskPositionHover Highlight "FillColor #LightHighlight#,#NoGradientTransparency#"][!UpdateMeter MeterRepeatingTaskPositionHover][!ShowMeterGroup HoverGroupPosition][!UpdateMeterGroup HoverGroupPosition]]=] ..
+            (i >= 2 and [=[[!SetOption MeterMoveUpTaskPosition Text "#fa-chevron-up#"][!UpdateMeter MeterMoveUpTaskPosition]]=] or "") ..
+            [=[[!SetOptionGroup NotRecurringGroupPosition Text "#fa-repeat#"][!UpdateMeterGroup NotRecurringGroupPosition][!Redraw]
+MouseLeaveAction=[!SetOption MeterRepeatingTaskPositionHover Highlight "FillColor 0,0,0,0"][!UpdateMeter MeterRepeatingTaskPositionHover][!HideMeterGroup HoverGroupPosition][!UpdateMeterGroup HoverGroupPosition]]=] ..
+            (i >= 2 and [=[[!SetOption MeterMoveUpTaskPosition Text ""][!UpdateMeter MeterMoveUpTaskPosition]]=] or "") ..
+            [=[[!SetOptionGroup NotRecurringGroupPosition Text ""][!UpdateMeterGroup NotRecurringGroupPosition][!Redraw]
 
 [MeasureRenameTextBoxPosition]
 Measure=Plugin
@@ -206,7 +213,9 @@ Group=TextGroup | NotRecurringGroupPosition]=]) .. [=[
 
 StringAlign=CenterCenter
 H=([MeterRepeatingTaskPosition:H] / 2)
-W=([MeterTitleBackground:H] / 2)
+W=([MeterTitleBackground:H] / 2)]=]
+            .. (i >= 2 and [=[
+
 
 [MeterMoveUpTaskPositionBackground]
 Meter=Shape
@@ -242,7 +251,9 @@ Y=([MeterRepeatingTaskPosition:Y] + ([MeterRepeatingTaskPosition:H] / 2))
 H=([MeterRepeatingTaskPosition:H] / 2)
 W=([MeterTitleBackground:H] / 2)
 StringAlign=CenterCenter
-]=], "Position", i)
+]=] or [=[
+
+]=]), "Position", i)
     end
 
     dynamicOutput[#dynamicOutput + 1] = "[Variables]"
@@ -591,12 +602,6 @@ function MoveTask(lineNumber, direction)
 
     local swappedLine = lines[lineNumber]
     local targetedIndex = lineNumber + direction
-
-    if (targetedIndex == 0) then
-        targetedIndex = #lines
-    elseif (targetedIndex > #lines) then
-        targetedIndex = 1
-    end
 
     -- swap task
     lines[lineNumber] = lines[targetedIndex]
