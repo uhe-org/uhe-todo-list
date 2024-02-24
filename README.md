@@ -4,7 +4,10 @@
 
 Simple Rainmeter to-do list skin based on [Pernickety/rainmeter-todo-list](https://github.com/Pernickety/rainmeter-todo-list).
 
-This is in the early stages of development. This can break and you may lose all your data, so use at your own risk.
+This is in the early stages of development.
+
+> [!WARNING]  
+> This can break in certain circumstances and you may lose all your data, so use at your own risk or backup the tasks txt files periodically.
 
 ## Usage
 
