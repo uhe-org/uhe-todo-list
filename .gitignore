@@ -1,2 +1,3 @@
 RMSKIN/Skins/uhe-todo-list/@Resources/DynamicMeters.inc
-*.txt
+/RMSKIN/Skins/uhe-todo-list/todo/*.txt
+RMSKIN/Skins/uhe-todo-list/@Resources/Logs.txt
