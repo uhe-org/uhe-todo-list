@@ -305,12 +305,8 @@ end
 
 function CheckLine(lineNumber)
     local hFile = io.open(STaskListFile, "r")
-    local lines = {}
-    local taskIndex
-
-    lines = GetList()
-
-    taskIndex = lineNumber
+    local lines = GetList()
+    local taskIndex = lineNumber
 
     if (string.sub(lines[1], 1, 2) == "# ") then
         lineNumber = lineNumber + 1
@@ -360,12 +356,8 @@ end
 
 function MarkCurrent(lineNumber)
     local hFile = io.open(STaskListFile, "r")
-    local lines = {}
-    local taskIndex
-
-    lines = GetList()
-
-    taskIndex = lineNumber
+    local lines = GetList()
+    local taskIndex = lineNumber
 
     if (string.sub(lines[1], 1, 2) == "# ") then
         lineNumber = lineNumber + 1
@@ -410,9 +402,7 @@ end
 function ClearTasks()
     local hFile = io.open(STaskListFile, "r")
     local lines = {}
-    local allLines = {}
-
-    allLines = GetList()
+    local allLines = GetList()
 
     -- read through task list
     for i, line in ipairs(allLines) do
@@ -472,15 +462,9 @@ end
 
 function SetTitle(newTaskName)
     local hFile = io.open(STaskListFile, "r")
-    local lines = {}
+    local lines = GetList()
     local lineNumber = 1
-    local titleSet = false
-
-    lines = GetList()
-
-    if #lines > 0 and (string.sub(lines[1], 1, 2) == "# ") then
-        titleSet = true
-    end
+    local titleSet = #lines > 0 and (string.sub(lines[1], 1, 2) == "# ")
 
     if titleSet == true then
         if newTaskName ~= "" then
@@ -561,9 +545,7 @@ end
 
 function RenameTask(lineNumber, newTaskName)
     local hFile = io.open(STaskListFile, "r")
-    local lines = {}
-
-    lines = GetList()
+    local lines = GetList()
 
     if (string.sub(lines[1], 1, 2) == "# ") then
         lineNumber = lineNumber + 1
@@ -592,9 +574,7 @@ end
 
 function MoveTask(lineNumber, direction)
     local hFile = io.open(STaskListFile, "r")
-    local lines = {}
-
-    lines = GetList()
+    local lines = GetList()
 
     if (string.sub(lines[1], 1, 2) == "# ") then
         lineNumber = lineNumber + 1
