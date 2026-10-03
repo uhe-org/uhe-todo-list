@@ -7,18 +7,47 @@ on:
       - created
 
 jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      lastTag: ${{ steps.get_last_tag.outputs.lastTag }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Get last tag
+        id: get_last_tag
+        run: |
+          git fetch --tags
+          echo "lastTag=$(git tag --sort=-creatordate | awk 'NR==2')" >> "$GITHUB_OUTPUT"
+      - name: Update version
+        run: |
+          git checkout main
+          find ./RMSKIN -type f -exec sed -i 's/${{ steps.get_last_tag.outputs.lastTag }}/${{ github.event.release.tag_name }}/g' {} \;
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add .
+          git commit -m "Bump version"
+          git push
   package:
     runs-on: windows-latest
+    permissions:
+      contents: write
     outputs:
       target: ${{ steps.create_rmskin.outputs.target }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - name: Create rmskin
         shell: powershell
         id: create_rmskin
         run: |
+          git checkout main
           Write-Output "Compressing archive: RMSKIN/*"
           $target = "${{ github.event.repository.name }}_${{ github.event.release.tag_name }}.zip"
           Compress-Archive -Path ./RMSKIN/* -DestinationPath $target
