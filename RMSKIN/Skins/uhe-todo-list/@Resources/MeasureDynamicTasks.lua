@@ -437,6 +437,22 @@ function ClearTasks()
     return true
 end
 
+function HasCompletedTasks()
+    local hFile = io.open(STaskListFile, "r")
+    local allLines = GetList()
+
+    -- read through task list
+    for i, line in ipairs(allLines) do
+        if string.sub(line, 1, 1) == "+" then
+            return true
+        end
+    end
+
+    hFile:close()
+
+    return false
+end
+
 function AddTask(newline)
     -- read entire task list
     local hFile = io.open(STaskListFile, "r")
